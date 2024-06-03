@@ -1,0 +1,10 @@
+[
+  {
+    "model": "fic_benchmark.fictype",
+    "pk": 1,
+    "fields": {
+      "fic_type": "Tipo Inicial"
+    }
+  }
+]
+
