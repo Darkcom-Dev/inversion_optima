@@ -84,3 +84,10 @@ class Position(models.Model):
 
     def __str__(self):
         return f'{self.issuer} {self.participation} % {self.statistic.fund} {self.statistic.period}'
+    
+class Indicator(models.Model):
+    period = models.DateField()
+    inflation = models.FloatField(blank=True, null=True)
+    interest_rate = models.FloatField(blank=True, null=True)
+    ibr = models.FloatField(blank=True, null=True)
+

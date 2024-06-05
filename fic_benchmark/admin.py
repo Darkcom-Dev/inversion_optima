@@ -1,6 +1,7 @@
 from django.contrib import admin
 from . import models
 
+admin.site.register(models.Indicator)
 admin.site.register(models.FundManager)
 admin.site.register(models.Fund)
 
