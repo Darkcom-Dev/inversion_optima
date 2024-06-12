@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fic_benchmark/style.css' %}">
+    <title>Inversion Optima</title>
+</head>
+<body>
+    <h1>Inversion Optima</h1>
+    <p>Por favor, seleccione una de las siguientes opciones:</p>
+    <p>Todos los fondos: <b>{{funds.count}}</b></p>
+    <form method="GET">
+    <label for="rating">Calificación:</label>
+    <select name="rating" id="rating">
+        <option value="">Todos</option>
+        {% for value, display in rating_choices %}
+            <option value="{{ value }}" {% if selected_rating == value|stringformat:"s" %}selected{% endif %}>{{ display }}</option>
+        {% endfor %}
+    </select>
+   
+    <label for="risk">Riesgo:</label>
+        <select name="risk" id="risk">
+            <option value="">Todos</option>
+            {% for value, display in risk_level_choices %}
+                 <option value="{{ value }}" {% if selected_risk == value|stringformat:"s" %}selected{% endif %}>{{ display }}</option>
+            {% endfor %}
+        </select>
+   
+       <button type="submit">Filtrar</button>
+    </form>
+   
+   <section>
+       {% for fund in funds %}
+           <!-- Aquí va tu código actual para mostrar los fondos -->
+            <details>
+                <summary><b>{{fund.name}}</b> - Riesgo: <b>{{fund.get_risk_level_display}}</b> Calificación: <b>{{fund.get_rating_display}}</b></summary>
+                <p>{{fund.description}}</p>
+                <p>Minimo de inversión: $<b>{{fund.minimum_investment}}</b> comisión: <b>{{fund.fee}}</b> % <br>
+                <b>{{fund.get_fic_type_display}}</b> Tipo de inversión: <b>{{fund.get_investment_type_display}}</b>
+                </p>
+                <a href="{{fund.url}}">web del fondo</a>
+                <a href=" www.google.com ">ver posiciones</a>
+            </details>
+       {% endfor %}
+   </section>
+    <p>rating choices:
+        
+        {% for choice in rating_choices %}
+        <b>{{choice.1}}</b>: <b>{{choice.0}}</b> 
+        {% endfor %}
+
+        risk_level_choices:
+        {% for choice in risk_level_choices %}
+        <b>{{choice.1}}</b>: <b>{{choice.0}}</b> 
+        {% endfor %}
+    </p>
+</body>
+</html>

@@ -61,6 +61,12 @@ class Fund(models.Model):
         (23, 'D'),
     ])
 
+    def get_risk_level_display(self):
+        return dict(self._meta.get_field('risk_level').choices).get(self.risk_level, '')
+
+    def get_rating_display(self):
+        return dict(self._meta.get_field('rating').choices).get(self.rating, '')
+
     def __str__(self):
         return self.name
     
@@ -70,7 +76,7 @@ class Statistic(models.Model):
     value_fund = models.FloatField(verbose_name='Valor del fondo en MM')
     units_in_circulation = models.FloatField(verbose_name='Unidades en circulación')
     unit_value = models.FloatField(verbose_name='Valor de la unidad')
-    investors = models.IntegerField(verbose_name='Inversionistas')
+    investors = models.PositiveIntegerField(verbose_name='Inversionistas')
     profitability = models.FloatField(verbose_name='Rentabilidad último mes en %')
     volatility = models.FloatField(verbose_name='Volatilidad último mes en %')
 
@@ -89,5 +95,7 @@ class Indicator(models.Model):
     period = models.DateField()
     inflation = models.FloatField(blank=True, null=True)
     interest_rate = models.FloatField(blank=True, null=True)
-    ibr = models.FloatField(blank=True, null=True)
+    
+    def __str__(self):
+        return f'{self.period}'
 
