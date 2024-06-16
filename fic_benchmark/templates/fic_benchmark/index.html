@@ -42,7 +42,6 @@
                 <b>{{fund.get_fic_type_display}}</b> Tipo de inversión: <b>{{fund.get_investment_type_display}}</b>
                 </p>
                 <a href="{{fund.url}}">web del fondo</a>
-                <a href=" www.google.com ">ver posiciones</a>
             </details>
        {% endfor %}
    </section>
@@ -57,5 +56,9 @@
         <b>{{choice.1}}</b>: <b>{{choice.0}}</b> 
         {% endfor %}
     </p>
+    <script>
+        var choices = '{{ choice|escapejs }}';
+        console.log(choices);
+    </script>
 </body>
 </html>

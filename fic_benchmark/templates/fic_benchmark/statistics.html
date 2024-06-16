@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fic_benchmark/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Fondos de inversión</title>
+</head>
+<body>
+    <h1>Estadisticas de los fondos</h1>
+    <p>Por favor, seleccione una de las siguientes opciones:</p>
+    <table>
+        <tr>
+            <th>Fondo</th>
+            <th>Riesgo</th>
+            <th>Calificación</th>
+        </tr>
+        {% for statistic in statistics %}
+            <tr>
+                <td>{{ statistic.fund.name }}</td>
+                <td>{{ statistic.fund.get_risk_level_display }}</td>
+                <td>{{ statistic.fund.get_rating_display }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        var filtered = '{{ filtered_statistics|escapejs }}';
+        console.log(filtered);
+    </script>
+    <p>Resultados de las estadísticas</p>
+    <table>
+        <tr>
+            <th>Periodo</th>
+            <th>Valor del fondo</th>
+            <th>Unidades en circulación</th>
+            <th>Valor de la unidad</th>
+            <th>Inversionistas</th>
+            <th>Rentabilidad</th>
+            <th>Volatilidad</th>
+        </tr>
+        {% for statistic in filtered_statistics %}
+            <tr>
+                <td>{{ statistic.period }}</td>
+                <td>{{ statistic.value_fund }}</td>
+                <td>{{ statistic.units_in_circulation }}</td>
+                <td>{{ statistic.unit_value }}</td>
+                <td>{{ statistic.investors }}</td>
+                <td>{{ statistic.profitability }}</td>
+                <td>{{ statistic.volatility }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+   
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        var values = JSON.parse('{{ values|safe|escapejs }}');
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: values.periods,
+                datasets: [{
+                    label: 'Value of funds',
+                    data: values.value_funds_MoM,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+            console.log(values.periods);
+    </script>
+</body>
+</html>
