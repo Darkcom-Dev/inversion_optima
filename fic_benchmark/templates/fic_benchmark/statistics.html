@@ -9,50 +9,55 @@
     <title>Fondos de inversión</title>
 </head>
 <body>
-    <h1>Estadisticas de los fondos</h1>
+    <h1>Estadisticas de los fondos de inversion</h1>
     <p>Por favor, seleccione una de las siguientes opciones:</p>
-    <table>
-        <tr>
-            <th>Fondo</th>
-            <th>Riesgo</th>
-            <th>Calificación</th>
-        </tr>
-        {% for statistic in statistics %}
-            <tr>
-                <td>{{ statistic.fund.name }}</td>
-                <td>{{ statistic.fund.get_risk_level_display }}</td>
-                <td>{{ statistic.fund.get_rating_display }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <form method="GET">
+        <label for="fund_id">Fondo:</label>
+        <select name="fund_id" id="fund_id">
+            {% for fund in funds %}
+                <option value="{{ fund.id }}">{{ fund.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="compare_fund_id">Fondo a comparar:</label>
+        <select name="compare_fund_id" id="compare_fund_id">
+            <!-- option value="">No comparar</option -->
+            {% for fund in funds %}
+                <option value="{{ fund.id }}">{{ fund.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filtrar</button>
 
-    <script>
-        var filtered = '{{ filtered_statistics|escapejs }}';
-        console.log(filtered);
-    </script>
-    <p>Resultados de las estadísticas</p>
-    <table>
-        <tr>
-            <th>Periodo</th>
-            <th>Valor del fondo</th>
-            <th>Unidades en circulación</th>
-            <th>Valor de la unidad</th>
-            <th>Inversionistas</th>
-            <th>Rentabilidad</th>
-            <th>Volatilidad</th>
-        </tr>
-        {% for statistic in filtered_statistics %}
-            <tr>
-                <td>{{ statistic.period }}</td>
-                <td>{{ statistic.value_fund }}</td>
-                <td>{{ statistic.units_in_circulation }}</td>
-                <td>{{ statistic.unit_value }}</td>
-                <td>{{ statistic.investors }}</td>
-                <td>{{ statistic.profitability }}</td>
-                <td>{{ statistic.volatility }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    </form>
+    <section>
+        <details>
+            <summary>Tablas de {{ selected_fund.name }} - Riesgo: <b>{{selected_fund.get_risk_level_display}}</b> Calificación: <b>{{selected_fund.get_rating_display}}</b></summary>
+            <table>
+                <tr>
+                    <th>Periodo</th>
+                    <th>Valor del fondo</th>
+                    <th>Unidades en circulación</th>
+                    <th>Valor de la unidad</th>
+                    <th>Inversionistas</th>
+                    <th>Rentabilidad</th>
+                    <th>Volatilidad</th>
+                </tr>
+                {% for statistic in filtered_statistics %}
+                    <tr>
+                        <td>{{ statistic.period }}</td>
+                        <td>{{ statistic.value_fund }}</td>
+                        <td>{{ statistic.units_in_circulation }}</td>
+                        <td>{{ statistic.unit_value }}</td>
+                        <td>{{ statistic.investors }}</td>
+                        <td>{{ statistic.profitability }}</td>
+                        <td>{{ statistic.volatility }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </details>
+    </section>
+    
+    <h4>{{selected_fund.name}} Gráfica</h4>
+    
    
     <canvas id="myChart" width="400" height="200"></canvas>
 
@@ -93,8 +98,9 @@
                 }
             }
         });
-        
-            console.log(values.periods);
     </script>
+
+    <!-- Para borrar luego: -->
+    
 </body>
 </html>

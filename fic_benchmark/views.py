@@ -53,15 +53,29 @@ def get_values_from_funds(statistics):
     }
     return values_dict
 
-def statistics(request):
-
-    filtered_statistics = Statistic.objects.filter(fund__id=request.GET.get('fund_id', 14)).order_by('period')    
+def get_statistics(fund_id, compare_fund_id):
+    funds = Fund.objects.all()
+    selected_fund = funds.filter(id=fund_id).first()
+    compared_funds = funds.filter(id=compare_fund_id)
+    all_statistics = Statistic.objects.all()
+    filtered_statistics = all_statistics.filter(fund__id=fund_id).order_by('period')
+    compared_filtered_statistics = all_statistics.filter(fund__id=compare_fund_id).order_by('period')
     values = get_values_from_funds(filtered_statistics)
+    compared_values = get_values_from_funds(compared_filtered_statistics)
 
     context = {
-        'statistics': statistics,
-        # Agrega cualquier otra variable de contexto que necesites
+        'funds': funds,
+        'selected_fund': selected_fund,
+        'compared_funds': compared_funds,
         'filtered_statistics': filtered_statistics,
         'values': json.dumps(values),
+        'compared_values': json.dumps(compared_values)
     }
+    return context
+
+
+def statistics(request):
+    fund_id = request.GET.get('fund_id', request.GET.get('fund.id', None))
+    compare_fund_id = request.GET.get('compare_fund_id', request.GET.get('compare_fund.id', None))
+    context = get_statistics(fund_id, compare_fund_id)
     return render(request, 'fic_benchmark/statistics.html', context)
