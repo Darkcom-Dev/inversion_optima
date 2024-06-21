@@ -1,14 +1,173 @@
+/* Light Theme */
+:root {
+  --background-color: #FFFFFF;
+  --text-color: #333333;
+  --heading-color: #1A1A1A;
+  --link-color: #0056B3;
+  --link-hover-color: #003D80;
+  --border-color: #E0E0E0;
+  --secondary-background-color: #F5F5F5;
+  --primary-button-background: #007BFF;
+  --primary-button-text: #FFFFFF;
+  --primary-button-hover: #0056B3;
+  --secondary-button-background: #6C757D;
+  --secondary-button-text: #FFFFFF;
+  --secondary-button-hover: #5A6268;
+  --success-color: #28A745;
+  --warning-color: #FFC107;
+  --error-color: #DC3545;
+}
+  
+/* Dark Theme */
+body.dark-theme {
+  --background-color: #121212;
+  --text-color: #E0E0E0;
+  --heading-color: #FFFFFF;
+  --link-color: #82AAFF;
+  --link-hover-color: #539BFF;
+  --border-color: #333333;
+  --secondary-background-color: #1E1E1E;
+  --primary-button-background: #1F73FF;
+  --primary-button-text: #FFFFFF;
+  --primary-button-hover: #0056B3;
+  --secondary-button-background: #6C757D;
+  --secondary-button-text: #FFFFFF;
+  --secondary-button-hover: #5A6268;
+  --success-color: #28A745;
+  --warning-color: #FFC107;
+  --error-color: #DC3545;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-family: 'Raleway', sans-serif;
+
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-family: 'Raleway', sans-serif;
+    }
+}
+
 body{
-    background-color: rgb(44, 26, 63);
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Raleway', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    color: var(--heading-color);
+}
+
+a{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--secondary-button-background);
+    color: var(--primary-button-text);
+    text-decoration: none;
+}
+
+a:hover{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--secondary-button-hover);
+    color: var(--primary-button-text);
+}
+
+button{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--primary-button-background);
+    color: var(--primary-button-text);
+    border: none;
+}
+
+button:hover{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--primary-button-hover);
+    color: var(--primary-button-text);
+    border: none;
+}
+
+.border{
+    border: 2px solid var(--border-color);
+}
+
+.secondary-background{
+    background-color: var(--secondary-background-color);
+}
+
+.button-primary{
+    background-color: var(--primary-button-background);
+    color: var(--primary-button-text);
+}
+
+.button-primary:hover{
+    background-color: var(--primary-button-hover);
+}
+
+.button-secondary{
+    background-color: var(--secondary-button-background);
+    color: var(--secondary-button-text);
+}
+
+.button-secondary:hover{
+    background-color: var(--secondary-button-hover);
+}
+
+.alert-success{
+    background-color: var(--success-color);
+}
+
+.alert-warning{
+    background-color: var(--warning-color);
+}
+
+.alert-error{
+    background-color: var(--error-color);
+}
+
+form{
+    margin: 10px;
+    padding: 20px;
+    background-color: var(--secondary-background-color);
+
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 section{
     padding: 20px;
+    margin: 10px;
     background-color: rgb(69, 3, 75);
-    border: 2px solid white;
-    border-radius: 5px;
+    
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -17,8 +176,7 @@ section{
 }
 
 details{
-    background-color: blueviolet;
-    border: 2px solid white;
+    background-color: var(--secondary-background-color);
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
@@ -26,9 +184,10 @@ details{
 }
 
 summary{
-    background-color: rgb(44, 26, 63);
+    background-color: var(--primary-button-background);
+    
+    color: var(--text-color);
     padding: 10px;
-    border: 2px solid white;
     border-radius: 10px;
     color: white;
     font-size: 20px;

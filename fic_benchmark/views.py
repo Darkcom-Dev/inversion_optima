@@ -56,7 +56,7 @@ def get_values_from_funds(statistics):
 def get_statistics(fund_id, compare_fund_id):
     funds = Fund.objects.all()
     selected_fund = funds.filter(id=fund_id).first()
-    compared_funds = funds.filter(id=compare_fund_id)
+    compared_fund = funds.filter(id=compare_fund_id).first()
     all_statistics = Statistic.objects.all()
     filtered_statistics = all_statistics.filter(fund__id=fund_id).order_by('period')
     compared_filtered_statistics = all_statistics.filter(fund__id=compare_fund_id).order_by('period')
@@ -66,8 +66,9 @@ def get_statistics(fund_id, compare_fund_id):
     context = {
         'funds': funds,
         'selected_fund': selected_fund,
-        'compared_funds': compared_funds,
+        'compared_fund': compared_fund,
         'filtered_statistics': filtered_statistics,
+        'compared_filtered_statistics': compared_filtered_statistics,
         'values': json.dumps(values),
         'compared_values': json.dumps(compared_values)
     }

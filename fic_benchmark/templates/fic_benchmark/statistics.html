@@ -5,10 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'fic_benchmark/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Fondos de inversión</title>
 </head>
 <body>
+    <header>
+        <div class="logo">
+          <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <!-- Fondo -->
+            <rect width="100%" height="100%" fill="#FFFFFF" />
+          
+            <!-- Elemento principal del logo: Un gráfico de barras con una flecha hacia arriba -->
+            <g transform="translate(50,50)">
+              <rect x="10" y="60" width="20" height="90" fill="#007BFF" />
+              <rect x="40" y="40" width="20" height="110" fill="#0056B3" />
+              <rect x="70" y="20" width="20" height="130" fill="#003D80" />
+              <polygon points="60,20 100,0 80,40" fill="#0056B3" />
+            </g>
+          
+            <!-- Nombre de la empresa -->
+            <text x="50" y="180" font-family="Arial, sans-serif" font-size="24" fill="#333333">
+              Inversión Optima
+            </text>
+          </svg>
+          
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+        <div class="search">
+          <input type="text" placeholder="Buscar...">
+          <button>Buscar</button>
+        </div>
+        <div class="user-options">
+          <a href="#login">Iniciar Sesión</a>
+          <a href="#register">Registrarse</a>
+        </div>
+      </header>
+      
     <h1>Estadisticas de los fondos de inversion</h1>
     <p>Por favor, seleccione una de las siguientes opciones:</p>
     <form method="GET">
@@ -17,15 +57,15 @@
             {% for fund in funds %}
                 <option value="{{ fund.id }}">{{ fund.name }}</option>
             {% endfor %}
-        </select>
+        </select><br>
         <label for="compare_fund_id">Fondo a comparar:</label>
         <select name="compare_fund_id" id="compare_fund_id">
             <!-- option value="">No comparar</option -->
             {% for fund in funds %}
                 <option value="{{ fund.id }}">{{ fund.name }}</option>
             {% endfor %}
-        </select>
-        <button type="submit">Filtrar</button>
+        </select><br>
+        <button type="submit">Filtrar</button><hr>
 
     </form>
     <section>
@@ -55,52 +95,75 @@
             </table>
         </details>
     </section>
-    
-    <h4>{{selected_fund.name}} Gráfica</h4>
-    
-   
-    <canvas id="myChart" width="400" height="200"></canvas>
 
+    <section>
+        <details>
+            <summary>Tablas de {{ compared_fund.name }} - Riesgo: <b>{{compared_fund_fund.get_risk_level_display}}</b> Calificación: <b>{{compared_fund.get_rating_display}}</b></summary>
+            <table>
+                <tr>
+                    <th>Periodo</th>
+                    <th>Valor del fondo</th>
+                    <th>Unidades en circulación</th>
+                    <th>Valor de la unidad</th>
+                    <th>Inversionistas</th>
+                    <th>Rentabilidad</th>
+                    <th>Volatilidad</th>
+                </tr>
+                {% for statistic in compared_filtered_statistics %}
+                    <tr>
+                        <td>{{ statistic.period }}</td>
+                        <td>{{ statistic.value_fund }}</td>
+                        <td>{{ statistic.units_in_circulation }}</td>
+                        <td>{{ statistic.unit_value }}</td>
+                        <td>{{ statistic.investors }}</td>
+                        <td>{{ statistic.profitability }}</td>
+                        <td>{{ statistic.volatility }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </details>
+    </section>
+    
+    <h4>Gráfica de {{selected_fund.name}} vs {{compared_fund.name}}</h4>
+    
     <script>
-        var values = JSON.parse('{{ values|safe|escapejs }}');
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: values.periods,
-                datasets: [{
-                    label: 'Value of funds',
-                    data: values.value_funds_MoM,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        let values = JSON.parse('{{ values|safe|escapejs }}');
+        let compared_values = JSON.parse('{{ compared_values|safe|escapejs }}');
+        let selected_fund_name = "{{ selected_fund.name|escapejs }}";
+        let compared_fund_name = "{{ compared_fund.name|escapejs }}";
+    </script>
+    <canvas id="comparative_value_funds" width="400" height="200"></canvas>
+    <canvas id="comparative_units_in_circulation" width="400" height="200"></canvas>
+    <canvas id="comparative_investors" width="400" height="200"></canvas>
+    <canvas id="comparative_unit_values" width="400" height="200"></canvas>
+    <canvas id="comparative_profitability" width="400" height="200"></canvas>
+    <canvas id="comparative_volatility" width="400" height="200"></canvas>
+    <script src="{% static 'fic_benchmark/all_chart.js' %}"></script>
+    
+    <!-- Para borrar luego: -->
+    <script>
+        console.log(JSON.parse("{{ compared_values|safe|escapejs }}"))
     </script>
 
-    <!-- Para borrar luego: -->
-    
+<footer>
+    <div class="footer-info">
+      <p>© 2024 Inversion Optima. Todos los derechos reservados.</p>
+      <p>Contacto: <a href="mailto:info@empresa.com">info@empresa.com</a></p>
+    </div>
+    <div class="footer-nav">
+      <ul>
+        <li><a href="#acerca">Acerca de</a></li>
+        <li><a href="#terminos">Términos y Condiciones</a></li>
+        <li><a href="#privacidad">Política de Privacidad</a></li>
+        <li><a href="#mapa">Mapa del Sitio</a></li>
+      </ul>
+    </div>
+    <div class="footer-social">
+      <a href="#facebook"><img src="facebook-icon.png" alt="Facebook"></a>
+      <a href="#twitter"><img src="twitter-icon.png" alt="Twitter"></a>
+      <a href="#linkedin"><img src="linkedin-icon.png" alt="LinkedIn"></a>
+    </div>
+  </footer>
+  
 </body>
 </html>

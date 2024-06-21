@@ -1,2 +1,6 @@
 venv/
 *.pyc
+*.cpython-39.pyc
+models.cpython-39.pyc
+*.cpython-39.pyc
+*.ipynb

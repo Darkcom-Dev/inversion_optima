@@ -97,5 +97,5 @@ class Indicator(models.Model):
     interest_rate = models.FloatField(blank=True, null=True)
     
     def __str__(self):
-        return f'{self.period}'
+        return f'{self.period} - Inflation: {self.inflation} - IBR: {self.interest_rate}'
 
