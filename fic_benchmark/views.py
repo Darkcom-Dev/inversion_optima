@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 
 from .models import Statistic, Fund
 import json
+import statistics as stats
+
 # Create your views here.
 
 def index(request):
@@ -35,13 +37,43 @@ def get_values_from_funds(statistics):
     
     for stat in statistics:
         periods.append(stat.period.strftime('%Y-%m'))
-        value_funds_MoM.append(stat.value_fund)
-        units_in_circulation_MoM.append(stat.units_in_circulation)
-        unit_values_MoM.append(stat.unit_value)
+        value_funds_MoM.append(round(stat.value_fund,2))
+        units_in_circulation_MoM.append(round(stat.units_in_circulation,2))
+        unit_values_MoM.append(round(stat.unit_value,2))
         investors_MoM.append(stat.investors)
-        profitability_MoM.append(stat.profitability)
-        volatility_MoM.append(stat.volatility)
+        profitability_MoM.append(round(stat.profitability,2))
+        volatility_MoM.append(round(stat.volatility,2))
     
+    # Estadística descriptiva para unit_values_MoM
+    descriptive_unit_value = {
+        'mean' : calculate_statistics(unit_values_MoM, stats.mean),
+        'median' : calculate_statistics(unit_values_MoM, stats.median),
+        'mode' : calculate_statistics(unit_values_MoM, stats.mode),
+        'std' : calculate_statistics(unit_values_MoM, stats.stdev),
+        'max' : max(unit_values_MoM),
+        'min' : min(unit_values_MoM),
+    }
+
+    # Estadística descriptiva para profitability_MoM
+    descriptive_profitability = {
+        'mean' : calculate_statistics(profitability_MoM, stats.mean),
+        'median' : calculate_statistics(profitability_MoM, stats.median),
+        'mode' : calculate_statistics(profitability_MoM, stats.mode),
+        'std' : calculate_statistics(profitability_MoM, stats.stdev),
+        'max' : max(profitability_MoM),
+        'min' : min(profitability_MoM),
+    }
+
+    # Estadística descriptiva para volatility_MoM
+    descriptive_volatility = {
+        'mean' : calculate_statistics(volatility_MoM, stats.mean),
+        'median' : calculate_statistics(volatility_MoM, stats.median),
+        'mode' : calculate_statistics(volatility_MoM, stats.mode),
+        'std' : calculate_statistics(volatility_MoM, stats.stdev),
+        'max' : max(volatility_MoM),
+        'min' : min(volatility_MoM),
+    }
+
     values_dict = {
         'periods': periods,
         'value_funds_MoM': value_funds_MoM,
@@ -49,7 +81,10 @@ def get_values_from_funds(statistics):
         'unit_values_MoM': unit_values_MoM,
         'investors_MoM': investors_MoM,
         'profitability_MoM': profitability_MoM,
-        'volatility_MoM': volatility_MoM
+        'volatility_MoM': volatility_MoM,
+        'descriptive_unit_value': descriptive_unit_value,
+        'descriptive_profitability': descriptive_profitability,
+        'descriptive_volatility': descriptive_volatility
     }
     return values_dict
 
@@ -80,3 +115,10 @@ def statistics(request):
     compare_fund_id = request.GET.get('compare_fund_id', request.GET.get('compare_fund.id', None))
     context = get_statistics(fund_id, compare_fund_id)
     return render(request, 'fic_benchmark/statistics.html', context)
+
+def calculate_statistics(data, stats_func):
+    if len(data) > 0:
+        return round(stats_func(data), 2)
+    else:
+        return 0
+

@@ -1,8 +1,6 @@
-//let values = JSON.parse('{{ values|safe|escapejs }}');
-//let compared_values = JSON.parse('{{ compared_values|safe|escapejs }}');
 
 // Fusionar y ordenar los períodos
-let allPeriods = Array.from(new Set([...values.periods, ...compared_values.periods])).sort();
+let allPeriods = Array.from(new Set([...values.periods, ...comparedValues.periods])).sort();
 
 // Crear arrays de datos alineados con los períodos fusionados
 let alignedValuesFundsMoM = new Array(allPeriods.length).fill(null);
@@ -18,6 +16,11 @@ let alignedComparedProfitabilityMoM = new Array(allPeriods.length).fill(null);
 let alignedVolatilityMoM = new Array(allPeriods.length).fill(null);
 let alignedComparedVolatilityMoM = new Array(allPeriods.length).fill(null);
 
+
+const medianUnitValueLineData = new Array(allPeriods.length).fill(values.descriptive_unit_value.median);
+const meanProfitabilityLineData = new Array(allPeriods.length).fill(values.descriptive_profitability.mean);
+
+
 // Llenar alignedValues con los datos del primer fondo
 values.periods.forEach((period, index) => {
     let periodIndex = allPeriods.indexOf(period);
@@ -30,14 +33,14 @@ values.periods.forEach((period, index) => {
 });
     
 // Llenar alignedComparedValues con los datos del segundo fondo
-compared_values.periods.forEach((period, index) => {
+comparedValues.periods.forEach((period, index) => {
     let periodIndex = allPeriods.indexOf(period);
-    alignedComparedValuesFundsMoM[periodIndex] = compared_values.value_funds_MoM[index];
-    alignedComparedUnitsInCirculationMoM[periodIndex] = compared_values.units_in_circulation_MoM[index];
-    alignedComparatedInvestorsMoM[periodIndex] = compared_values.investors_MoM[index];
-    alignedComparedUnitValuesMoM[periodIndex] = compared_values.unit_values_MoM[index];
-    alignedComparedProfitabilityMoM[periodIndex] = compared_values.profitability_MoM[index];
-    alignedComparedVolatilityMoM[periodIndex] = compared_values.volatility_MoM[index];            
+    alignedComparedValuesFundsMoM[periodIndex] = comparedValues.value_funds_MoM[index];
+    alignedComparedUnitsInCirculationMoM[periodIndex] = comparedValues.units_in_circulation_MoM[index];
+    alignedComparatedInvestorsMoM[periodIndex] = comparedValues.investors_MoM[index];
+    alignedComparedUnitValuesMoM[periodIndex] = comparedValues.unit_values_MoM[index];
+    alignedComparedProfitabilityMoM[periodIndex] = comparedValues.profitability_MoM[index];
+    alignedComparedVolatilityMoM[periodIndex] = comparedValues.volatility_MoM[index];            
 });
         
 // Gráfica de valor de los fondos;
@@ -48,19 +51,19 @@ const myChart = new Chart(ctx, {
         labels: allPeriods,
         datasets: [
             {
-                label: selected_fund_name,
+                label: selectedFundName,
                 data: alignedValuesFundsMoM,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
-                label: compared_fund_name,
+                label: comparedFundName,
                 data: alignedComparedValuesFundsMoM,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
-            }
+            },
         ]
     },
     options: {
@@ -72,7 +75,11 @@ const myChart = new Chart(ctx, {
         },
         scales: {
             y: {
-                beginAtZero: false
+                beginAtZero: false,
+                title: {
+                    display: true,
+                    text: 'Valor en Miles de Millones'
+                }
             }
         }
     }
@@ -86,19 +93,20 @@ const myChart2 = new Chart(ctx2, {
         labels: allPeriods,
         datasets: [
             {
-                label: selected_fund_name,
+                label: selectedFundName,
                 data: alignedUnitsInCircualtionMoM,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
-                label: compared_fund_name,
+                label: comparedFundName,
                 data: alignedComparedUnitsInCirculationMoM,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
-            }
+            },
+            
         ]
     },
     options: {
@@ -110,7 +118,11 @@ const myChart2 = new Chart(ctx2, {
         },
         scales: {
             y: {
-                beginAtZero: false
+                beginAtZero: false,
+                title: {
+                    display: true,
+                    text: 'Unidades'
+                }
             }
         }
     }
@@ -123,13 +135,13 @@ const myChart3 = new Chart(ctx3,{
         labels:allPeriods,
         datasets:[
             {
-                label:selected_fund_name,
+                label:selectedFundName,
                 data: alignedInvestorsMoM,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth:1
             },{
-                label: compared_fund_name,
+                label: comparedFundName,
                 data: alignedComparatedInvestorsMoM,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
@@ -147,7 +159,11 @@ const myChart3 = new Chart(ctx3,{
         
         scales:{
             y:{
-                beginAtZero:false
+                beginAtZero:false,
+                title: {
+                    display: true,
+                    text: 'Inversionistas'
+                }
             }
         }
     }
@@ -160,18 +176,27 @@ const myChart4 = new Chart(ctx4, {
         labels: allPeriods,
         datasets: [
             {
-                label: selected_fund_name,
+                label: selectedFundName,
                 data: alignedUnitValuesMoM,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
-                label: compared_fund_name,
+                label: comparedFundName,
                 data: alignedComparedUnitValuesMoM,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
+            },
+            {
+                label: 'Mediana de '+ selectedFundName,
+                data: medianUnitValueLineData,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                //borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                borderDash: [10, 5], // Dibuja la línea discontinua
+                fill: true // No rellena debajo de la línea
             }
         ]
     },
@@ -184,7 +209,11 @@ const myChart4 = new Chart(ctx4, {
         },
         scales: {
             y: {
-                beginAtZero: false
+                beginAtZero: false,
+                title: {
+                    display: true,
+                    text: 'Valor de la unidad en pesos'
+                }
             }
         }
     }
@@ -197,18 +226,27 @@ const myChart5 = new Chart(ctx5, {
         labels: allPeriods,
         datasets: [
             {
-                label: selected_fund_name,
+                label: selectedFundName,
                 data: alignedProfitabilityMoM,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
-                label: compared_fund_name,
+                label: comparedFundName,
                 data: alignedComparedProfitabilityMoM,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
+            },
+            {
+                label: 'Std de '+ selectedFundName,
+                data: meanProfitabilityLineData,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                //borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                borderDash: [10, 5], // Dibuja la línea discontinua
+                fill: true // No rellena debajo de la línea
             }
         ]
     },
@@ -221,7 +259,11 @@ const myChart5 = new Chart(ctx5, {
         },
         scales: {
             y: {
-                beginAtZero: false
+                beginAtZero: false,
+                title: {
+                    display: true,
+                    text: 'Rendimiento en porcentaje'
+                }
             }
         }
     }
@@ -234,14 +276,14 @@ const myChart6 = new Chart(ctx6, {
         labels: allPeriods,
         datasets: [
             {
-                label: selected_fund_name,
+                label: selectedFundName,
                 data: alignedVolatilityMoM,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
-                label: compared_fund_name,
+                label: comparedFundName,
                 data: alignedComparedVolatilityMoM,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
@@ -258,7 +300,11 @@ const myChart6 = new Chart(ctx6, {
         },
         scales: {
             y: {
-                beginAtZero: false
+                beginAtZero: false,
+                title: {
+                    display: true,
+                    text: 'Volatilidad en porcentaje'
+                }
             }
         }
     }
