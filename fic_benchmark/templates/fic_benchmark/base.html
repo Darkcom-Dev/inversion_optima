@@ -13,39 +13,55 @@
 
 </head>
 <body>
-    <header>
-        <div class="logo">
-          <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-            <!-- Fondo -->
-            <rect width="100%" height="100%" fill="#FFFFFF" />
-          
-            <!-- Elemento principal del logo: Un gráfico de barras con una flecha hacia arriba -->
-            <g transform="translate(50,50)">
-              <rect x="10" y="60" width="20" height="90" fill="#007BFF" />
-              <rect x="40" y="40" width="20" height="110" fill="#0056B3" />
-              <rect x="70" y="20" width="20" height="130" fill="#003D80" />
-              <polygon points="60,20 100,0 80,40" fill="#0056B3" />
-            </g>
-          
-          </svg>
-          <h1>Inversion Optima</h1>
-        </div>
+  <header>
+    <div class="logo">
+      <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <!-- Fondo -->
+        <rect width="100%" height="100%" fill="#FFFFFF" />
+      
+        <!-- Elemento principal del logo: Un gráfico de barras con una flecha hacia arriba -->
+        <g transform="translate(50,50)">
+          <rect x="10" y="60" width="20" height="90" fill="#007BFF" />
+          <rect x="40" y="40" width="20" height="110" fill="#0056B3" />
+          <rect x="70" y="20" width="20" height="130" fill="#003D80" />
+          <polygon points="60,20 100,0 80,40" fill="#0056B3" />
+        </g>
+      
+      </svg>
+      <h1>Inversion Optima</h1>
+    </div>
+    <div class="search">
+      <input type="text" placeholder="Buscar...">
+      <button>Buscar</button>
+    </div>
+    <div class="user-options">
+      <a href="#login">Iniciar Sesión</a>
+      <a href="#register">Registrarse</a>
+    </div>
+    <nav>
+        <a href="{% url 'fic_benchmark:index' %}">Inicio</a>
+        <a href="{% url 'fic_benchmark:statistics' %}">Estadisticas</a>
+        <a href="#blog">Blog</a>
+        <a href="#theme">theme</a>
+    </nav>
+    <button id="dark-mode-toggle">Dark Mode</button>
+    </header>
+    <script>
+      const darkModeToggle = document.getElementById('dark-mode-toggle');
+      const root = document.documentElement;
 
-        <div class="search">
-          <input type="text" placeholder="Buscar...">
-          <button>Buscar</button>
-        </div>
-        <div class="user-options">
-          <a href="#login">Iniciar Sesión</a>
-          <a href="#register">Registrarse</a>
-        </div>
-        <nav>
-            <a href="{% url 'fic_benchmark:index' %}">Inicio</a>
-            <a href="{% url 'fic_benchmark:statistics' %}">Estadisticas</a>
-            <a href="#blog">Blog</a>
-            <a href="#contacto">Contacto</a>
-        </nav>
-      </header>
+      darkModeToggle.addEventListener('click', () => {
+        if (root.style.getPropertyValue('color-scheme') === 'light') {
+          root.style.setProperty('color-scheme', 'dark');
+        }
+        else{
+          root.style.setProperty('color-scheme', 'light');
+        }
+      });
+
+
+    
+    </script>
     <div id="container">
         {% block container %}
         <!-- Contenido por defecto que puede ser sobrescrito -->

@@ -11,5 +11,6 @@ class PositionInline(admin.TabularInline):
 
 class StatisticAdmin(admin.ModelAdmin):
     inlines = [PositionInline]
+    list_filter = ['fund', 'period']
 
 admin.site.register(models.Statistic, StatisticAdmin)
