@@ -1,5 +1,6 @@
 {% extends 'fic_benchmark/base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Inversion Optima{% endblock %}
 {% block container %}
@@ -32,7 +33,7 @@
          <details>
              <summary><b>{{fund.name}}</b> - Riesgo: <b>{{fund.get_risk_level_display}}</b> Calificación: <b>{{fund.get_rating_display}}</b></summary>
              <p>{{fund.description}}</p>
-             <p>Minimo de inversión: $<b>{{fund.minimum_investment}}</b> comisión: <b>{{fund.fee}}</b> % <br>
+             <p>Minimo de inversión: $<b>{{fund.minimum_investment|intcomma}}</b> comisión: <b>{{fund.fee}}</b> % <br>
              <b>{{fund.get_fic_type_display}}</b> Tipo de inversión: <b>{{fund.get_investment_type_display}}</b>
              </p>
              <a href="{{fund.url}}">web del fondo</a>
@@ -44,4 +45,6 @@
     var choices = '{{ choice|escapejs }}';
     console.log(choices);
 </script>
+
 {% endblock %}
+

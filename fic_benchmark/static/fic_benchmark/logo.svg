@@ -1,0 +1,12 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <!-- Fondo -->
+    <rect width="100%" height="100%" fill="#FFFFFF11" />
+  
+    <!-- Elemento principal del logo: Un gráfico de barras con una flecha hacia arriba -->
+    <g transform="translate(50,50)">
+      <rect x="10" y="60" width="20" height="90" fill="#007BFF" />
+      <rect x="40" y="40" width="20" height="110" fill="#0056B3" />
+      <rect x="70" y="20" width="20" height="130" fill="#003D80" />
+      <polygon points="60,20 100,0 80,40" fill="#0056B3" />
+    </g>
+</svg>

@@ -50,8 +50,8 @@ def get_values_from_funds(statistics):
         'median' : calculate_statistics(unit_values_MoM, stats.median),
         'mode' : calculate_statistics(unit_values_MoM, stats.mode),
         'std' : calculate_statistics(unit_values_MoM, stats.stdev),
-        'max' : max(unit_values_MoM),
-        'min' : min(unit_values_MoM),
+        'max' : calculate_statistics(unit_values_MoM, max),
+        'min' : calculate_statistics(unit_values_MoM, min),
     }
 
     # Estadística descriptiva para profitability_MoM
@@ -60,8 +60,8 @@ def get_values_from_funds(statistics):
         'median' : calculate_statistics(profitability_MoM, stats.median),
         'mode' : calculate_statistics(profitability_MoM, stats.mode),
         'std' : calculate_statistics(profitability_MoM, stats.stdev),
-        'max' : max(profitability_MoM),
-        'min' : min(profitability_MoM),
+        'max' : calculate_statistics(profitability_MoM, max),
+        'min' : calculate_statistics(profitability_MoM, min),
     }
 
     # Estadística descriptiva para volatility_MoM
@@ -70,8 +70,8 @@ def get_values_from_funds(statistics):
         'median' : calculate_statistics(volatility_MoM, stats.median),
         'mode' : calculate_statistics(volatility_MoM, stats.mode),
         'std' : calculate_statistics(volatility_MoM, stats.stdev),
-        'max' : max(volatility_MoM),
-        'min' : min(volatility_MoM),
+        'max' : calculate_statistics(volatility_MoM, max),
+        'min' : calculate_statistics(volatility_MoM, min),
     }
 
     values_dict = {
