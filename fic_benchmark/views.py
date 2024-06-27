@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-
-from .models import Statistic, Fund
+from .models import Statistic, Fund, Indicator
 import json
 import statistics as stats
 
@@ -26,7 +25,7 @@ def index(request):
     }
     return render(request, 'fic_benchmark/index.html', context)
 
-def get_values_from_funds(statistics):
+def get_values_from_funds(statistics, indicators):
     periods = []
     value_funds_MoM = []
     units_in_circulation_MoM = []
@@ -34,6 +33,12 @@ def get_values_from_funds(statistics):
     investors_MoM = []
     profitability_MoM = []
     volatility_MoM = []
+    units_per_capita_MoM = []
+    fund_value_per_capita_MoM = []
+    teorical_value_fund_MoM = []
+
+    profitability_diff_inflation_MoM = [] # Poner aqui la resta de la inflación contra los rendmientos
+    unit_values_diff_inflation_MoM = [] # Poner aqui la resta de la inflación contra la valoracion del fondo
     
     for stat in statistics:
         periods.append(stat.period.strftime('%Y-%m'))
@@ -43,6 +48,24 @@ def get_values_from_funds(statistics):
         investors_MoM.append(stat.investors)
         profitability_MoM.append(round(stat.profitability,2))
         volatility_MoM.append(round(stat.volatility,2))
+        units_per_capita_MoM.append(round(stat.units_in_circulation/stat.investors,2))
+        fund_value_per_capita_MoM.append(round(stat.value_fund/stat.investors,2))
+        teorical_value_fund_MoM.append(round(stat.unit_value*stat.units_in_circulation/stat.investors,2))
+
+        # Filtrar los indicadores que coincidan con el periodo del fondo
+        matching_indicators = indicators.filter(period=stat.period)
+        
+        # Restar la inflación del porcentaje de rendimiento de los fondos
+        if matching_indicators.first().inflation != None:
+            profitability_diff_inflation_MoM.append(round(stat.profitability - matching_indicators.first().inflation, 2))
+        else:
+            profitability_diff_inflation_MoM.append(stat.profitability)
+        
+        if matching_indicators.first().interest_rate != None:
+            unit_values_diff_inflation_MoM.append(round(stat.unit_value - matching_indicators.first().interest_rate, 2))
+        else:
+            unit_values_diff_inflation_MoM.append(stat.unit_value)
+
     
     # Estadística descriptiva para unit_values_MoM
     descriptive_unit_value = {
@@ -82,9 +105,14 @@ def get_values_from_funds(statistics):
         'investors_MoM': investors_MoM,
         'profitability_MoM': profitability_MoM,
         'volatility_MoM': volatility_MoM,
+        'units_per_capita_MoM': units_per_capita_MoM,
+        'fund_value_per_capita_MoM': fund_value_per_capita_MoM,
+        'teorical_value_fund_MoM': teorical_value_fund_MoM,
         'descriptive_unit_value': descriptive_unit_value,
         'descriptive_profitability': descriptive_profitability,
-        'descriptive_volatility': descriptive_volatility
+        'descriptive_volatility': descriptive_volatility,
+        'profitability_diff_inflation_MoM': profitability_diff_inflation_MoM,
+        'unit_values_diff_inflation_MoM': unit_values_diff_inflation_MoM
     }
     return values_dict
 
@@ -95,8 +123,9 @@ def get_statistics(fund_id, compare_fund_id):
     all_statistics = Statistic.objects.all()
     filtered_statistics = all_statistics.filter(fund__id=fund_id).order_by('period')
     compared_filtered_statistics = all_statistics.filter(fund__id=compare_fund_id).order_by('period')
-    values = get_values_from_funds(filtered_statistics)
-    compared_values = get_values_from_funds(compared_filtered_statistics)
+    indicators = Indicator.objects.all().order_by('period')
+    values = get_values_from_funds(filtered_statistics, indicators)
+    compared_values = get_values_from_funds(compared_filtered_statistics, indicators)
 
     context = {
         'funds': funds,
@@ -104,8 +133,9 @@ def get_statistics(fund_id, compare_fund_id):
         'compared_fund': compared_fund,
         'filtered_statistics': filtered_statistics,
         'compared_filtered_statistics': compared_filtered_statistics,
+        'indicators': indicators,
         'values': json.dumps(values),
-        'compared_values': json.dumps(compared_values)
+        'compared_values': json.dumps(compared_values),
     }
     return context
 

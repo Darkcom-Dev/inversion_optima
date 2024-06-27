@@ -5,6 +5,14 @@
 
 {% block title %}Comparación de estadisticas{% endblock %}
 {% block container %}
+
+<script>
+    let values = JSON.parse('{{ values|safe|escapejs }}');
+    let comparedValues = JSON.parse('{{ compared_values|safe|escapejs }}');
+    let selectedFundName = "{{ selected_fund.name|escapejs }}";
+    let comparedFundName = "{{ compared_fund.name|escapejs }}";
+</script>
+
 <h2>Estadisticas de los fondos de inversion</h2>
 <p>Por favor, seleccione una de las siguientes opciones:</p>
 <form method="GET">
@@ -49,6 +57,8 @@
                 </tr>
             {% endfor %}
         </table>
+        {{ filtered_statistics.count }} resultados
+        <table id="descriptive_stats_selected"></table>
     </details>
 </section>
 
@@ -78,18 +88,35 @@
             {% endfor %}
         </table>
         {{ compared_filtered_statistics.count }} resultados
-        {{ compared_filtered_statistics.descriptive_unit_value.mean }} statistics
+        <table id="descriptive_stats_compared"></table>
     </details>
 </section>
-    
+
+<section>
+    <details>
+        <summary>Inflacion y tasa de interés</b></summary>
+        <table>
+            <tr>
+                <th>Periodo</th>
+                <th>Inflación</th>
+                <th>Tasa de interés</th>
+            </tr>
+            {% for indicator in indicators %}
+                <tr>
+                    <td class="text-right">{{ indicator.period|date:"M Y" }}</td>
+                    <td class="text-right">{{ indicator.inflation }} %</td>
+                    <td class="text-right">{{ indicator.interest_rate }} %</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </details>
+</section>
+
+<script src="{% static 'fic_benchmark/descriptive_stats.js' %}"></script>
+
 <h4>Gráfica de {{selected_fund.name}} vs {{compared_fund.name}}</h4>
 
-<script>
-    let values = JSON.parse('{{ values|safe|escapejs }}');
-    let comparedValues = JSON.parse('{{ compared_values|safe|escapejs }}');
-    let selectedFundName = "{{ selected_fund.name|escapejs }}";
-    let comparedFundName = "{{ compared_fund.name|escapejs }}";
-</script>
+
 <canvas id="comparative_value_funds" width="400" height="200"></canvas>
 <canvas id="comparative_units_in_circulation" width="400" height="200"></canvas>
 <canvas id="comparative_investors" width="400" height="200"></canvas>
@@ -100,6 +127,7 @@
 <!-- Para borrar luego: -->
 <script>
     console.log("Median Unit Value: ", comparedValues.descriptive_unit_value.median);
+    
 </script>
 {% endblock %}
 {% block extra_js %}
