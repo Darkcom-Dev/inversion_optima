@@ -1,0 +1,126 @@
+
+function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel) {
+    const ctx = document.getElementById(chartId).getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: allPeriods,
+        datasets: [{
+          label: selectedLabel,
+          data: selectedData,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: title
+          }   
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: yAxisLabel
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  function drawComparativeChart(chartId, selectedLabel, selectedData, compareLabel, compareData, title, yAxisLabel) {
+    const ctx = document.getElementById(chartId).getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: allPeriods,
+        datasets: [{
+          label: selectedLabel,
+          data: selectedData,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: compareLabel,
+          data: compareData,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: title
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: yAxisLabel
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  function drawComparativeChartWithMean(chartElementId, selectedLabel, selectedData, compareLabel, compareData, meanData, chartTitle, yAxisLabel) {
+    const chartElement = document.getElementById(chartElementId);
+    const chart = new Chart(chartElement, {
+      type: 'line',
+      data: {
+        labels: allPeriods,
+        datasets: [
+          {
+            label: selectedLabel,
+            data: selectedData,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          },
+          {
+            label: compareLabel,
+            data: compareData,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          },
+          {
+            label: `Media de ${selectedLabel}`,
+            data: meanData,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderWidth: 2,
+            borderDash: [10, 5],
+            fill: true
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: chartTitle
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: yAxisLabel
+            }
+          }
+        }
+      }
+    });
+  }

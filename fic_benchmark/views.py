@@ -66,7 +66,6 @@ def get_values_from_funds(statistics, indicators):
         else:
             unit_values_diff_inflation_MoM.append(stat.unit_value)
 
-    
     # Estadística descriptiva para unit_values_MoM
     descriptive_unit_value = {
         'mean' : calculate_statistics(unit_values_MoM, stats.mean),
@@ -124,6 +123,7 @@ def get_statistics(fund_id, compare_fund_id):
     filtered_statistics = all_statistics.filter(fund__id=fund_id).order_by('period')
     compared_filtered_statistics = all_statistics.filter(fund__id=compare_fund_id).order_by('period')
     indicators = Indicator.objects.all().order_by('period')
+
     values = get_values_from_funds(filtered_statistics, indicators)
     compared_values = get_values_from_funds(compared_filtered_statistics, indicators)
 
@@ -133,12 +133,14 @@ def get_statistics(fund_id, compare_fund_id):
         'compared_fund': compared_fund,
         'filtered_statistics': filtered_statistics,
         'compared_filtered_statistics': compared_filtered_statistics,
-        'indicators': indicators,
         'values': json.dumps(values),
         'compared_values': json.dumps(compared_values),
     }
     return context
 
+
+def dates_list_to_string(dates_list):
+    return [str(date) for date in dates_list]
 
 def statistics(request):
     fund_id = request.GET.get('fund_id', request.GET.get('fund.id', None))
@@ -147,8 +149,38 @@ def statistics(request):
     return render(request, 'fic_benchmark/statistics.html', context)
 
 def calculate_statistics(data, stats_func):
-    if len(data) > 0:
-        return round(stats_func(data), 2)
-    else:
-        return 0
+    return round(stats_func(data), 2) if len(data) > 0 else 0
 
+def indicators(request):
+
+    indicators = Indicator.objects.all().order_by('period')
+    indicators_periods = list(indicators.values_list('period', flat=True))
+    indicators_dict = {'periods':dates_list_to_string(indicators_periods),
+                       'inflation':list(indicators.values_list('inflation', flat=True)),
+                       'interest_rate':list(indicators.values_list('interest_rate', flat=True))
+                       }
+    #descriptive_inflation = {
+        #'mean' : calculate_statistics(indicators_dict['inflation'], stats.mean),
+        #'median' : calculate_statistics(indicators_dict['inflation'], stats.median),
+        #'mode' : calculate_statistics(indicators_dict['inflation'], stats.mode),
+        #'std' : calculate_statistics(indicators_dict['inflation'], stats.stdev),
+        #'max' : calculate_statistics(indicators_dict['inflation'], max),
+        #'min' : calculate_statistics(indicators_dict['inflation'], min),
+    #}
+    """
+    descriptive_interest_rate = {
+        'mean' : calculate_statistics(indicators_dict['interest_rate'], stats.mean),
+        'median' : calculate_statistics(indicators_dict['interest_rate'], stats.median),
+        'mode' : calculate_statistics(indicators_dict['interest_rate'], stats.mode),
+        'std' : calculate_statistics(indicators_dict['interest_rate'], stats.stdev),
+        'max' : calculate_statistics(indicators_dict['interest_rate'], max),
+        'min' : calculate_statistics(indicators_dict['interest_rate'], min),
+    }
+    indicators_dict['descriptive_inflation'] = descriptive_inflation
+    indicators_dict['descriptive_interest_rate'] = descriptive_interest_rate
+    """
+    context = {
+        'indicators': indicators,
+        'indicators_dict': json.dumps(indicators_dict),
+    }
+    return render(request, 'fic_benchmark/indicators.html', context)

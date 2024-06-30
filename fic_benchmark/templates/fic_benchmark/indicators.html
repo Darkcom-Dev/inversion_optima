@@ -1,0 +1,36 @@
+{% extends 'fic_benchmark/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Indicadores{% endblock %}
+
+{% block container %}
+<h2>Indicadores</h2>
+<p>Por favor, seleccione una de las siguientes opciones:</p>
+
+<section>
+    <details>
+        <summary>Inflacion y tasa de interés</b></summary>
+        <table>
+            <tr>
+                <th>Periodo</th>
+                <th>Inflación</th>
+                <th>Tasa de interés</th>
+            </tr>
+            {% for indicator in indicators %}
+                <tr>
+                    <td class="text-right">{{ indicator.period|date:"M Y" }}</td>
+                    <td class="text-right">{{ indicator.inflation }} %</td>
+                    <td class="text-right">{{ indicator.interest_rate }} %</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </details>
+</section>
+<script>
+    let indicators_dict = JSON.parse('{{ indicators_dict|safe|escapejs }}')
+    console.log("Descriptive Inflation: " + indicators_dict.descriptive_inflation)
+    console.log("Descriptive Interest Rate: " + indicators_dict.descriptive_interest_rate)
+</script>
+<canvas id="inflation_interest_rates" width="400" height="200"></canvas>
+<script src="{% static 'fic_benchmark/indicators_charts.js' %}"></script>
+{% endblock %}

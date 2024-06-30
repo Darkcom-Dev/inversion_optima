@@ -9,6 +9,11 @@ let alignedInvestorsMoM = new Array(allPeriods.length).fill(null);
 let alignedUnitValuesMoM = new Array(allPeriods.length).fill(null);
 let alignedProfitabilityMoM = new Array(allPeriods.length).fill(null);
 let alignedVolatilityMoM = new Array(allPeriods.length).fill(null);
+let alignedUnitsPerCapitaMoM = new Array(allPeriods.length).fill(null);
+let alignedFundValuesPerCapitaMoM = new Array(allPeriods.length).fill(null);
+let alignedTeoricalValueFundsMoM = new Array(allPeriods.length).fill(null);
+let alignedProfitabilityDiffInflationsMoM = new Array(allPeriods.length).fill(null);
+let alignedUnitValuesDiffInflationsMoM = new Array(allPeriods.length).fill(null);
 
 // Llenar alignedValues con los datos del primer fondo
 values.periods.forEach((period, index) => {
@@ -19,6 +24,11 @@ values.periods.forEach((period, index) => {
     alignedUnitValuesMoM[periodIndex] = values.unit_values_MoM[index];
     alignedProfitabilityMoM[periodIndex] = values.profitability_MoM[index];
     alignedVolatilityMoM[periodIndex] = values.volatility_MoM[index];
+    alignedUnitsPerCapitaMoM[periodIndex] = values.units_per_capita_MoM[index];
+    alignedFundValuesPerCapitaMoM[periodIndex] = values.fund_value_per_capita_MoM[index];
+    alignedTeoricalValueFundsMoM[periodIndex] = values.teorical_value_fund_MoM[index];
+    alignedProfitabilityDiffInflationsMoM[periodIndex] = values.profitability_diff_inflation_MoM[index];
+    alignedUnitValuesDiffInflationsMoM[periodIndex] = values.unit_values_diff_inflation_MoM[index];
 });
 
 let alignedComparedValuesFundsMoM = new Array(allPeriods.length).fill(null);
@@ -27,6 +37,11 @@ let alignedComparatedInvestorsMoM = new Array(allPeriods.length).fill(null);
 let alignedComparedUnitValuesMoM = new Array(allPeriods.length).fill(null);
 let alignedComparedProfitabilityMoM = new Array(allPeriods.length).fill(null);
 let alignedComparedVolatilityMoM = new Array(allPeriods.length).fill(null);
+let alignedComparedUnitsPerCapitaMoM = new Array(allPeriods.length).fill(null);
+let alignedComparedFundValuesPerCapitaMoM = new Array(allPeriods.length).fill(null);
+let alignedComparedTeoricalValueFundsMoM = new Array(allPeriods.length).fill(null);
+let alignedComparedProfitabilityDiffInflationsMoM = new Array(allPeriods.length).fill(null);
+let alignedComparedUnitValuesDiffInflationsMoM = new Array(allPeriods.length).fill(null);
 
 // Llenar alignedComparedValues con los datos del segundo fondo
 comparedValues.periods.forEach((period, index) => {
@@ -36,105 +51,17 @@ comparedValues.periods.forEach((period, index) => {
     alignedComparatedInvestorsMoM[periodIndex] = comparedValues.investors_MoM[index];
     alignedComparedUnitValuesMoM[periodIndex] = comparedValues.unit_values_MoM[index];
     alignedComparedProfitabilityMoM[periodIndex] = comparedValues.profitability_MoM[index];
-    alignedComparedVolatilityMoM[periodIndex] = comparedValues.volatility_MoM[index];            
+    alignedComparedVolatilityMoM[periodIndex] = comparedValues.volatility_MoM[index];  
+    alignedComparedUnitsPerCapitaMoM[periodIndex] = comparedValues.units_per_capita_MoM[index];
+    alignedComparedFundValuesPerCapitaMoM[periodIndex] = comparedValues.fund_value_per_capita_MoM[index];
+    alignedComparedTeoricalValueFundsMoM[periodIndex] = comparedValues.teorical_value_fund_MoM[index];          
+    alignedComparedProfitabilityDiffInflationsMoM[periodIndex] = comparedValues.profitability_diff_inflation_MoM[index];
+    alignedComparedUnitValuesDiffInflationsMoM[periodIndex] = comparedValues.unit_values_diff_inflation_MoM[index];
 });
 
 const medianUnitValueLineData = new Array(allPeriods.length).fill(values.descriptive_unit_value.median);
 const meanProfitabilityLineData = new Array(allPeriods.length).fill(values.descriptive_profitability.mean);
 
-// Gráfica de valor de los fondos;
-function drawComparativeChart(chartId, selectedLabel, selectedData, compareLabel, compareData, title, yAxisLabel) {
-  const ctx = document.getElementById(chartId).getContext('2d');
-  const chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: allPeriods,
-      datasets: [{
-        label: selectedLabel,
-        data: selectedData,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      },
-      {
-        label: compareLabel,
-        data: compareData,
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: title
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: false,
-          title: {
-            display: true,
-            text: yAxisLabel
-          }
-        }
-      }
-    }
-  });
-}
-
-function drawComparativeChartWithMean(chartElementId, selectedLabel, selectedData, compareLabel, compareData, meanData, chartTitle, yAxisLabel) {
-  const chartElement = document.getElementById(chartElementId);
-  const chart = new Chart(chartElement, {
-    type: 'line',
-    data: {
-      labels: allPeriods,
-      datasets: [
-        {
-          label: selectedLabel,
-          data: selectedData,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1
-        },
-        {
-          label: compareLabel,
-          data: compareData,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        },
-        {
-          label: `Media de ${selectedLabel}`,
-          data: meanData,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderWidth: 2,
-          borderDash: [10, 5],
-          fill: true
-        }
-      ]
-    },
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: chartTitle
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: false,
-          title: {
-            display: true,
-            text: yAxisLabel
-          }
-        }
-      }
-    }
-  });
-}
-    
 drawComparativeChart('comparative_value_funds', 
     selectedFundName, 
     alignedValuesFundsMoM, 
@@ -159,6 +86,24 @@ drawComparativeChart('comparative_investors',
     'Cantidad de Inversionistas', 
     'Inversionistas');
 
+drawComparativeChartWithMean('comparative_unit_values', 
+    selectedFundName, 
+    alignedUnitValuesMoM, 
+    comparedFundName, 
+    alignedComparedUnitValuesMoM, 
+    medianUnitValueLineData,
+    'Valor de la Unidad', 
+    'COP por Unidad');
+
+drawComparativeChartWithMean('comparative_profitability', 
+    selectedFundName, 
+    alignedProfitabilityMoM, 
+    comparedFundName, 
+    alignedComparedProfitabilityMoM, 
+    meanProfitabilityLineData, 
+    'Valor del fondo en Miles de Millones', 
+    'Miles de Millones');
+
 drawComparativeChart('comparative_volatility', 
     selectedFundName, 
     alignedVolatilityMoM, 
@@ -167,19 +112,44 @@ drawComparativeChart('comparative_volatility',
     'Volatilidad', 
     'Porcentaje');
 
-drawComparativeChart('comparative_unit_values', 
+drawComparativeChart('comparative_units_per_capita', 
     selectedFundName, 
-    alignedUnitValuesMoM, 
+    alignedUnitsPerCapitaMoM, 
     comparedFundName, 
-    alignedComparedUnitValuesMoM, 
-    'Valor de la inversión', 
+    alignedComparedUnitsPerCapitaMoM, 
+    'Unidades por persona', 
+    'Unidades');
+
+drawComparativeChart('comparative_unit_value_per_capita', 
+    selectedFundName, 
+    alignedFundValuesPerCapitaMoM, 
+    comparedFundName, 
+    alignedComparedFundValuesPerCapitaMoM, 
+    'Valor del fondo por persona', 
     'Miles de Millones');
 
-drawComparativeChartWithMean('comparative_mean', 
+drawComparativeChart('comparative_teorical_value_fund', 
     selectedFundName, 
-    alignedValuesFundsMoM, 
+    alignedTeoricalValueFundsMoM, 
     comparedFundName, 
-    alignedComparedValuesFundsMoM, 
-    alignedMeanValuesFundsMoM, 
-    'Valor del fondo en Miles de Millones', 
+    alignedComparedTeoricalValueFundsMoM, 
+    'Valor teórico del fondo', 
     'Miles de Millones');
+
+    console.log("Valor de la Unidad: ", alignedUnitValuesMoM);
+    console.log("Valor de la Unidad con inflación: ", alignedUnitValuesDiffInflationsMoM);
+
+drawChart('comparative_profitability_diff_inflation', 
+    selectedFundName, 
+    alignedProfitabilityDiffInflationsMoM, 
+    'Diferencia de rentabilidad VS Inflación', 
+    'Porcentaje');
+
+drawComparativeChart('comparative_unit_values_diff_inflation', 
+    selectedFundName, 
+    alignedUnitValuesDiffInflationsMoM, 
+    comparedFundName, 
+    alignedComparedUnitValuesDiffInflationsMoM, 
+    'Valor de la Unidad VS Inflación', 
+    'Miles de Millones');
+

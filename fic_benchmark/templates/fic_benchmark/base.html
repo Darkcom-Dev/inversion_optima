@@ -21,8 +21,8 @@
     <nav>
       <a href="{% url 'fic_benchmark:index' %}">Inicio</a>
       <a href="{% url 'fic_benchmark:statistics' %}">Estadisticas</a>
+      <a href="{% url 'fic_benchmark:indicators' %}">Indicadores</a>
       <a href="#blog">Blog</a>
-      <a href="#theme">theme</a>
     </nav>
     <div class="header-menu">
       <div class="search">
@@ -42,6 +42,7 @@
     
     </header>
     <script src="{% static 'fic_benchmark/theme_toggle.js' %}"></script>
+    <script src="{% static 'fic_benchmark/draw_charts.js' %}"></script>
     <div id="container">
         {% block container %}
         <!-- Contenido por defecto que puede ser sobrescrito -->

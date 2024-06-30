@@ -11,6 +11,7 @@
     let comparedValues = JSON.parse('{{ compared_values|safe|escapejs }}');
     let selectedFundName = "{{ selected_fund.name|escapejs }}";
     let comparedFundName = "{{ compared_fund.name|escapejs }}";
+    
 </script>
 
 <h2>Estadisticas de los fondos de inversion</h2>
@@ -91,31 +92,8 @@
         <table id="descriptive_stats_compared"></table>
     </details>
 </section>
-
-<section>
-    <details>
-        <summary>Inflacion y tasa de interés</b></summary>
-        <table>
-            <tr>
-                <th>Periodo</th>
-                <th>Inflación</th>
-                <th>Tasa de interés</th>
-            </tr>
-            {% for indicator in indicators %}
-                <tr>
-                    <td class="text-right">{{ indicator.period|date:"M Y" }}</td>
-                    <td class="text-right">{{ indicator.inflation }} %</td>
-                    <td class="text-right">{{ indicator.interest_rate }} %</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </details>
-</section>
-
 <script src="{% static 'fic_benchmark/descriptive_stats.js' %}"></script>
-
 <h4>Gráfica de {{selected_fund.name}} vs {{compared_fund.name}}</h4>
-
 
 <canvas id="comparative_value_funds" width="400" height="200"></canvas>
 <canvas id="comparative_units_in_circulation" width="400" height="200"></canvas>
@@ -123,12 +101,12 @@
 <canvas id="comparative_unit_values" width="400" height="200"></canvas>
 <canvas id="comparative_profitability" width="400" height="200"></canvas>
 <canvas id="comparative_volatility" width="400" height="200"></canvas>
+<canvas id="comparative_units_per_capita" width="400" height="200"></canvas>
+<canvas id="comparative_unit_value_per_capita" width="400" height="200"></canvas>
+<canvas id="comparative_teorical_value_fund" width="400" height="200"></canvas>
+<canvas id="comparative_profitability_diff_inflation" width="400" height="200"></canvas>
+<canvas id="comparative_unit_values_diff_inflation" width="400" height="200"></canvas>
 
-<!-- Para borrar luego: -->
-<script>
-    console.log("Median Unit Value: ", comparedValues.descriptive_unit_value.median);
-    
-</script>
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'fic_benchmark/all_chart.js' %}"></script>
