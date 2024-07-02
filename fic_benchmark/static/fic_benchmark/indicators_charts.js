@@ -13,4 +13,4 @@ drawComparativeChart('inflation_interest_rates',
     'Tasa de interés', 
     interestRates, 
     'Inflación VS Tasa de interés', 
-    'porcentaje');
+    'Porcentaje');

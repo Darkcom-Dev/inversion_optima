@@ -1,5 +1,5 @@
 
-function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel) {
+function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel, logarithmScale = false) {
     const ctx = document.getElementById(chartId).getContext('2d');
     const chart = new Chart(ctx, {
       type: 'line',
@@ -23,6 +23,7 @@ function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel) {
         scales: {
           y: {
             beginAtZero: false,
+            type: logarithmScale ? 'logarithmic' : 'linear',
             title: {
               display: true,
               text: yAxisLabel
@@ -33,7 +34,7 @@ function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel) {
     });
   }
   
-  function drawComparativeChart(chartId, selectedLabel, selectedData, compareLabel, compareData, title, yAxisLabel) {
+  function drawComparativeChart(chartId, selectedLabel, selectedData, compareLabel, compareData, title, yAxisLabel, logarithmScale = false) {
     const ctx = document.getElementById(chartId).getContext('2d');
     const chart = new Chart(ctx, {
       type: 'line',
@@ -64,6 +65,7 @@ function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel) {
         scales: {
           y: {
             beginAtZero: false,
+            type: logarithmScale ? 'logarithmic' : 'linear',
             title: {
               display: true,
               text: yAxisLabel
@@ -74,7 +76,7 @@ function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel) {
     });
   }
   
-  function drawComparativeChartWithMean(chartElementId, selectedLabel, selectedData, compareLabel, compareData, meanData, chartTitle, yAxisLabel) {
+  function drawComparativeChartWithMean(chartElementId, selectedLabel, selectedData, compareLabel, compareData, meanData, chartTitle, yAxisLabel, logarithmScale = false) {
     const chartElement = document.getElementById(chartElementId);
     const chart = new Chart(chartElement, {
       type: 'line',
@@ -115,10 +117,12 @@ function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel) {
         scales: {
           y: {
             beginAtZero: false,
+            type: logarithmScale ? 'logarithmic' : 'linear',
             title: {
               display: true,
               text: yAxisLabel
             }
+            
           }
         }
       }

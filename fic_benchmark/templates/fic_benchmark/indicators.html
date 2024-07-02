@@ -24,6 +24,39 @@
                 </tr>
             {% endfor %}
         </table>
+        <table>
+            <tr>
+                <th>Dato</th>
+                <th>Conteo</th>
+                <th>Mínimo</th>
+                <th>Media</th>
+                <th>Máximo</th>
+                <th>Desviación std</th>
+                <th>Varianza</th>
+                <th>Sumatoria</th>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Inflación: </b></td>
+                <td class="text-right">{{ indicators.count }}</td>
+                <td class="text-right">{{ inflation_stats.min_inflation|intcomma }} %</td>
+                <td class="text-right">{{ inflation_stats.avg_inflation|intcomma }} %</td>
+                <td class="text-right">{{ inflation_stats.max_inflation|intcomma }} %</td>
+                <td class="text-right">{{ inflation_stats.std_inflation|intcomma }} %</td>
+                <td class="text-right">{{ inflation_stats.variance_inflation|intcomma }} %</td>
+                <td class="text-right">{{ inflation_stats.sum_inflation|intcomma }} %</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Tasa de interés: </b></td>
+                <td class="text-right">{{ indicators.count }}</td>
+                <td class="text-right">{{ interest_rate_stats.min_interest_rate|intcomma }} %</td>
+                <td class="text-right">{{ interest_rate_stats.avg_interest_rate|intcomma }} %</td>
+                <td class="text-right">{{ interest_rate_stats.max_interest_rate|intcomma }} %</td>
+                <td class="text-right">{{ interest_rate_stats.std_interest_rate|intcomma }} %</td>
+                <td class="text-right">{{ interest_rate_stats.variance_interest_rate|intcomma }} %</td>
+                <td class="text-right">{{ interest_rate_stats.sum_interest_rate|intcomma }} %</td>
+            </tr>
+        </table>
+
     </details>
 </section>
 <script>

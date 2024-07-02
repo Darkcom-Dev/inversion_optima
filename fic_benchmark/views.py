@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Statistic, Fund, Indicator
 import json
 import statistics as stats
-
+from django.db.models import Avg, Min, Max, Sum, Count, StdDev, Variance, F, ExpressionWrapper, FloatField 
 # Create your views here.
 
 def index(request):
@@ -33,6 +33,7 @@ def get_values_from_funds(statistics, indicators):
     investors_MoM = []
     profitability_MoM = []
     volatility_MoM = []
+
     units_per_capita_MoM = []
     fund_value_per_capita_MoM = []
     teorical_value_fund_MoM = []
@@ -48,9 +49,10 @@ def get_values_from_funds(statistics, indicators):
         investors_MoM.append(stat.investors)
         profitability_MoM.append(round(stat.profitability,2))
         volatility_MoM.append(round(stat.volatility,2))
-        units_per_capita_MoM.append(round(stat.units_in_circulation/stat.investors,2))
-        fund_value_per_capita_MoM.append(round(stat.value_fund/stat.investors,2))
-        teorical_value_fund_MoM.append(round(stat.unit_value*stat.units_in_circulation/stat.investors,2))
+
+        units_per_capita_MoM.append(round(stat.units_in_circulation / stat.investors,2))
+        fund_value_per_capita_MoM.append(round(stat.value_fund / stat.investors,2))
+        teorical_value_fund_MoM.append(round(stat.unit_value * stat.units_in_circulation / stat.investors,2))
 
         # Filtrar los indicadores que coincidan con el periodo del fondo
         matching_indicators = indicators.filter(period=stat.period)
@@ -66,36 +68,6 @@ def get_values_from_funds(statistics, indicators):
         else:
             unit_values_diff_inflation_MoM.append(stat.unit_value)
 
-    # Estadística descriptiva para unit_values_MoM
-    descriptive_unit_value = {
-        'mean' : calculate_statistics(unit_values_MoM, stats.mean),
-        'median' : calculate_statistics(unit_values_MoM, stats.median),
-        'mode' : calculate_statistics(unit_values_MoM, stats.mode),
-        'std' : calculate_statistics(unit_values_MoM, stats.stdev),
-        'max' : calculate_statistics(unit_values_MoM, max),
-        'min' : calculate_statistics(unit_values_MoM, min),
-    }
-
-    # Estadística descriptiva para profitability_MoM
-    descriptive_profitability = {
-        'mean' : calculate_statistics(profitability_MoM, stats.mean),
-        'median' : calculate_statistics(profitability_MoM, stats.median),
-        'mode' : calculate_statistics(profitability_MoM, stats.mode),
-        'std' : calculate_statistics(profitability_MoM, stats.stdev),
-        'max' : calculate_statistics(profitability_MoM, max),
-        'min' : calculate_statistics(profitability_MoM, min),
-    }
-
-    # Estadística descriptiva para volatility_MoM
-    descriptive_volatility = {
-        'mean' : calculate_statistics(volatility_MoM, stats.mean),
-        'median' : calculate_statistics(volatility_MoM, stats.median),
-        'mode' : calculate_statistics(volatility_MoM, stats.mode),
-        'std' : calculate_statistics(volatility_MoM, stats.stdev),
-        'max' : calculate_statistics(volatility_MoM, max),
-        'min' : calculate_statistics(volatility_MoM, min),
-    }
-
     values_dict = {
         'periods': periods,
         'value_funds_MoM': value_funds_MoM,
@@ -104,24 +76,82 @@ def get_values_from_funds(statistics, indicators):
         'investors_MoM': investors_MoM,
         'profitability_MoM': profitability_MoM,
         'volatility_MoM': volatility_MoM,
+        
         'units_per_capita_MoM': units_per_capita_MoM,
         'fund_value_per_capita_MoM': fund_value_per_capita_MoM,
         'teorical_value_fund_MoM': teorical_value_fund_MoM,
-        'descriptive_unit_value': descriptive_unit_value,
-        'descriptive_profitability': descriptive_profitability,
-        'descriptive_volatility': descriptive_volatility,
+
         'profitability_diff_inflation_MoM': profitability_diff_inflation_MoM,
         'unit_values_diff_inflation_MoM': unit_values_diff_inflation_MoM
     }
     return values_dict
+
+def get_descriptive_stats(statistics):
+    aggregated_stats = statistics.aggregate(
+        fund_count=Count('fund'),
+        value_fund_avg=Avg('value_fund'),
+        value_fund_min=Min('value_fund'),
+        value_fund_max=Max('value_fund'),
+        value_fund_stddev=StdDev('value_fund'),
+        value_fund_variance=Variance('value_fund'),
+        value_fund_sum=Sum('value_fund'),
+        units_in_circulation_avg=Avg('units_in_circulation'),
+        units_in_circulation_min=Min('units_in_circulation'),
+        units_in_circulation_max=Max('units_in_circulation'),
+        units_in_circulation_stddev=StdDev('units_in_circulation'),
+        units_in_circulation_variance=Variance('units_in_circulation'),
+        units_in_circulation_sum=Sum('units_in_circulation'),
+        unit_value_avg=Avg('unit_value'),
+        unit_value_min=Min('unit_value'),
+        unit_value_max=Max('unit_value'),
+        unit_value_stddev=StdDev('unit_value'),
+        unit_value_variance=Variance('unit_value'),
+        unit_value_sum=Sum('unit_value'),
+        investors_avg=Avg('investors'),
+        investors_min=Min('investors'),
+        investors_max=Max('investors'),
+        investors_stddev=StdDev('investors'),
+        investors_variance=Variance('investors'),
+        investors_sum=Sum('investors'),
+        profitability_avg=Avg('profitability'),
+        profitability_min=Min('profitability'),
+        profitability_max=Max('profitability'),
+        profitability_stddev=StdDev('profitability'),
+        profitability_variance=Variance('profitability'),
+        profitability_sum=Sum('profitability'),
+        volatility_avg=Avg('volatility'),
+        volatility_min=Min('volatility'),
+        volatility_max=Max('volatility'),
+        volatility_stddev=StdDev('volatility'),
+        volatility_variance=Variance('volatility'),
+        volatility_sum=Sum('volatility'),
+    )
+
+    rounded_stats = {
+        key: round(value, 2)
+        for key, value in aggregated_stats.items()
+    }
+
+    return rounded_stats
 
 def get_statistics(fund_id, compare_fund_id):
     funds = Fund.objects.all()
     selected_fund = funds.filter(id=fund_id).first()
     compared_fund = funds.filter(id=compare_fund_id).first()
     all_statistics = Statistic.objects.all()
+
     filtered_statistics = all_statistics.filter(fund__id=fund_id).order_by('period')
+    #value_funds_per_capita = filtered_statistics.objects.annotate(sum=F('field1') + F('field2')).values('sum')
+    filtered_stats = {}
+    if filtered_statistics.count() > 0:
+        filtered_stats = get_descriptive_stats(filtered_statistics)
     compared_filtered_statistics = all_statistics.filter(fund__id=compare_fund_id).order_by('period')
+    compared_stats = {}
+    if compared_filtered_statistics.count() > 0:
+        compared_stats = get_descriptive_stats(compared_filtered_statistics)
+    
+    print(type(filtered_stats))
+
     indicators = Indicator.objects.all().order_by('period')
 
     values = get_values_from_funds(filtered_statistics, indicators)
@@ -132,7 +162,10 @@ def get_statistics(fund_id, compare_fund_id):
         'selected_fund': selected_fund,
         'compared_fund': compared_fund,
         'filtered_statistics': filtered_statistics,
+        'filtered_stats': filtered_stats,
+        'filtered_stats_json': json.dumps(filtered_stats),
         'compared_filtered_statistics': compared_filtered_statistics,
+        'compared_stats': compared_stats,
         'values': json.dumps(values),
         'compared_values': json.dumps(compared_values),
     }
@@ -152,35 +185,43 @@ def calculate_statistics(data, stats_func):
     return round(stats_func(data), 2) if len(data) > 0 else 0
 
 def indicators(request):
-
     indicators = Indicator.objects.all().order_by('period')
+
+    inflation_stats = indicators.aggregate(
+        avg_inflation=Avg('inflation'),
+        min_inflation=Min('inflation'),
+        max_inflation=Max('inflation'),
+        std_inflation=StdDev('inflation'),
+        variance_inflation=Variance('inflation'),
+        sum_inflation=Sum('inflation'),
+        count_inflation=Count('inflation')
+    )
+
+    interest_rate_stats = indicators.aggregate(
+        avg_interest_rate=Avg('interest_rate'),
+        min_interest_rate=Min('interest_rate'),
+        max_interest_rate=Max('interest_rate'),
+        std_interest_rate=StdDev('interest_rate'),
+        variance_interest_rate=Variance('interest_rate'),
+        sum_interest_rate=Sum('interest_rate'),
+        count_interest_rate=Count('interest_rate')
+    )
+
+    inflation_stats = {key: round(value, 2) for key, value in inflation_stats.items()}
+    interest_rate_stats = {key: round(value, 2) for key, value in interest_rate_stats.items()}
+
     indicators_periods = list(indicators.values_list('period', flat=True))
-    indicators_dict = {'periods':dates_list_to_string(indicators_periods),
-                       'inflation':list(indicators.values_list('inflation', flat=True)),
-                       'interest_rate':list(indicators.values_list('interest_rate', flat=True))
-                       }
-    #descriptive_inflation = {
-        #'mean' : calculate_statistics(indicators_dict['inflation'], stats.mean),
-        #'median' : calculate_statistics(indicators_dict['inflation'], stats.median),
-        #'mode' : calculate_statistics(indicators_dict['inflation'], stats.mode),
-        #'std' : calculate_statistics(indicators_dict['inflation'], stats.stdev),
-        #'max' : calculate_statistics(indicators_dict['inflation'], max),
-        #'min' : calculate_statistics(indicators_dict['inflation'], min),
-    #}
-    """
-    descriptive_interest_rate = {
-        'mean' : calculate_statistics(indicators_dict['interest_rate'], stats.mean),
-        'median' : calculate_statistics(indicators_dict['interest_rate'], stats.median),
-        'mode' : calculate_statistics(indicators_dict['interest_rate'], stats.mode),
-        'std' : calculate_statistics(indicators_dict['interest_rate'], stats.stdev),
-        'max' : calculate_statistics(indicators_dict['interest_rate'], max),
-        'min' : calculate_statistics(indicators_dict['interest_rate'], min),
+    indicators_dict = {
+        'periods': dates_list_to_string(indicators_periods),
+        'inflation': list(indicators.values_list('inflation', flat=True)),
+        'interest_rate': list(indicators.values_list('interest_rate', flat=True))
     }
-    indicators_dict['descriptive_inflation'] = descriptive_inflation
-    indicators_dict['descriptive_interest_rate'] = descriptive_interest_rate
-    """
+
     context = {
         'indicators': indicators,
+        'inflation_stats': inflation_stats,
+        'interest_rate_stats': interest_rate_stats,
         'indicators_dict': json.dumps(indicators_dict),
     }
+
     return render(request, 'fic_benchmark/indicators.html', context)

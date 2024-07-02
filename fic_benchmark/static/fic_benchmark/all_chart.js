@@ -59,8 +59,8 @@ comparedValues.periods.forEach((period, index) => {
     alignedComparedUnitValuesDiffInflationsMoM[periodIndex] = comparedValues.unit_values_diff_inflation_MoM[index];
 });
 
-const medianUnitValueLineData = new Array(allPeriods.length).fill(values.descriptive_unit_value.median);
-const meanProfitabilityLineData = new Array(allPeriods.length).fill(values.descriptive_profitability.mean);
+const medianUnitValueLineData = new Array(allPeriods.length).fill(stats.unit_value_avg);
+const meanProfitabilityLineData = new Array(allPeriods.length).fill(stats.profitability_avg);
 
 drawComparativeChart('comparative_value_funds', 
     selectedFundName, 
@@ -118,7 +118,8 @@ drawComparativeChart('comparative_units_per_capita',
     comparedFundName, 
     alignedComparedUnitsPerCapitaMoM, 
     'Unidades por persona', 
-    'Unidades');
+    'Unidades',
+    true);
 
 drawComparativeChart('comparative_unit_value_per_capita', 
     selectedFundName, 
@@ -126,7 +127,8 @@ drawComparativeChart('comparative_unit_value_per_capita',
     comparedFundName, 
     alignedComparedFundValuesPerCapitaMoM, 
     'Valor del fondo por persona', 
-    'Miles de Millones');
+    'Miles de Millones',
+    true);
 
 drawComparativeChart('comparative_teorical_value_fund', 
     selectedFundName, 
@@ -136,12 +138,11 @@ drawComparativeChart('comparative_teorical_value_fund',
     'Valor teórico del fondo', 
     'Miles de Millones');
 
-    console.log("Valor de la Unidad: ", alignedUnitValuesMoM);
-    console.log("Valor de la Unidad con inflación: ", alignedUnitValuesDiffInflationsMoM);
-
-drawChart('comparative_profitability_diff_inflation', 
-    selectedFundName, 
+drawComparativeChart('comparative_profitability_diff_inflation', 
+    'Rentabilidad Neta: ' + selectedFundName, 
     alignedProfitabilityDiffInflationsMoM, 
+    'Rentabilidad Nominal: '+ selectedFundName,
+    alignedProfitabilityMoM,
     'Diferencia de rentabilidad VS Inflación', 
     'Porcentaje');
 

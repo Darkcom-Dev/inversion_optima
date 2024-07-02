@@ -11,7 +11,11 @@
     let comparedValues = JSON.parse('{{ compared_values|safe|escapejs }}');
     let selectedFundName = "{{ selected_fund.name|escapejs }}";
     let comparedFundName = "{{ compared_fund.name|escapejs }}";
-    
+    let stats = JSON.parse('{{ filtered_stats_json|safe|escapejs }}');
+    console.log("Type stats: " + typeof stats);
+    console.log("stats: " + stats);
+    console.log("stats: " + stats.profitability_avg);
+    console.log("stats: " + stats.unit_value_avg);
 </script>
 
 <h2>Estadisticas de los fondos de inversion</h2>
@@ -39,11 +43,11 @@
         <table>
             <tr>
                 <th>Periodo</th>
-                <th>Valor del fondo</th>
+                <th>Valor del fondo en Millones</th>
                 <th>Unidades en circulación</th>
                 <th>Valor de la unidad</th>
                 <th>Inversionistas</th>
-                <th>Rentabilidad</th>
+                <th>Rentabilidad E.A.</th>
                 <th>Volatilidad</th>
             </tr>
             {% for statistic in filtered_statistics %}
@@ -59,7 +63,72 @@
             {% endfor %}
         </table>
         {{ filtered_statistics.count }} resultados
-        <table id="descriptive_stats_selected"></table>
+        <table>
+            <tr>
+                <th>Dato</th>
+                <th>Mínimo</th>
+                <th>Media</th>
+                <th>Máximo</th>
+                <th>Desviación std</th>
+                <th>Varianza</th>
+                <th>Sumatoria</th>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Valor del fondo: </b></td>
+                <td class="text-right">{{ filtered_stats.value_fund_min|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.value_fund_avg|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.value_fund_max|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.value_fund_stddev|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.value_fund_variance|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.value_fund_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Unidades en circulación: </b></td>
+                <td class="text-right">{{ filtered_stats.units_in_circulation_min|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.units_in_circulation_avg|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.units_in_circulation_max|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.units_in_circulation_stddev|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.units_in_circulation_variance|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.units_in_circulation_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Valor de la unidad: </b></td>
+                <td class="text-right">{{ filtered_stats.unit_value_min|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.unit_value_avg|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.unit_value_max|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.unit_value_stddev|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.unit_value_variance|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.unit_value_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Inversionistas: </b></td>
+                <td class="text-right">{{ filtered_stats.investors_min|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.investors_avg|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.investors_max|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.investors_stddev|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.investors_variance|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.investors_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Rentabilidad: </b></td>
+                <td class="text-right">{{ filtered_stats.profitability_min|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.profitability_avg|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.profitability_max|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.profitability_stddev|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.profitability_variance|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.profitability_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Volatilidad: </b></td>
+                <td class="text-right">{{ filtered_stats.volatility_min|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.volatility_avg|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.volatility_max|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.volatility_stddev|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.volatility_variance|intcomma }}</td>
+                <td class="text-right">{{ filtered_stats.volatility_sum|intcomma }}</td>
+            </tr>
+        </table>
+        
     </details>
 </section>
 
@@ -69,11 +138,11 @@
         <table>
             <tr>
                 <th>Periodo</th>
-                <th>Valor del fondo</th>
+                <th>Valor del fondo en Millones</th>
                 <th>Unidades en circulación</th>
                 <th>Valor de la unidad</th>
                 <th>Inversionistas</th>
-                <th>Rentabilidad</th>
+                <th>Rentabilidad E.A.</th>
                 <th>Volatilidad</th>
             </tr>
             {% for statistic in compared_filtered_statistics %}
@@ -89,10 +158,74 @@
             {% endfor %}
         </table>
         {{ compared_filtered_statistics.count }} resultados
-        <table id="descriptive_stats_compared"></table>
+        <table id="descriptive_stats_compared">
+            <tr>
+                <th>Dato</th>
+                <th>Mínimo</th>
+                <th>Media</th>
+                <th>Máximo</th>
+                <th>Desviación std</th>
+                <th>Varianza</th>
+                <th>Sumatoria</th>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Valor del fondo: </b></td>
+                <td class="text-right">{{ compared_stats.value_fund_min|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.value_fund_avg|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.value_fund_max|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.value_fund_stddev|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.value_fund_variance|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.value_fund_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Unidades en circulación: </b></td>
+                <td class="text-right">{{ compared_stats.units_in_circulation_min|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.units_in_circulation_avg|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.units_in_circulation_max|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.units_in_circulation_stddev|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.units_in_circulation_variance|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.units_in_circulation_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Valor de la unidad: </b></td>
+                <td class="text-right">{{ compared_stats.unit_value_min|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.unit_value_avg|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.unit_value_max|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.unit_value_stddev|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.unit_value_variance|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.unit_value_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Inversionistas: </b></td>
+                <td class="text-right">{{ compared_stats.investors_min|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.investors_avg|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.investors_max|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.investors_stddev|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.investors_variance|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.investors_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Rentabilidad: </b></td>
+                <td class="text-right">{{ compared_stats.profitability_min|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.profitability_avg|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.profitability_max|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.profitability_stddev|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.profitability_variance|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.profitability_sum|intcomma }}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><b>Volatilidad: </b></td>
+                <td class="text-right">{{ compared_stats.volatility_min|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.volatility_avg|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.volatility_max|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.volatility_stddev|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.volatility_variance|intcomma }}</td>
+                <td class="text-right">{{ compared_stats.volatility_sum|intcomma }}</td>
+            </tr>
+        </table>
     </details>
 </section>
-<script src="{% static 'fic_benchmark/descriptive_stats.js' %}"></script>
+
 <h4>Gráfica de {{selected_fund.name}} vs {{compared_fund.name}}</h4>
 
 <canvas id="comparative_value_funds" width="400" height="200"></canvas>
