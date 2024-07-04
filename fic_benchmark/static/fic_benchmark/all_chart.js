@@ -144,13 +144,13 @@ drawComparativeChart('comparative_profitability_diff_inflation',
     'Rentabilidad Nominal: '+ selectedFundName,
     alignedProfitabilityMoM,
     'Diferencia de rentabilidad VS Inflación', 
-    'Porcentaje');
+    'Porcentaje', fill=false, logarithmic=true);
 
 drawComparativeChart('comparative_unit_values_diff_inflation', 
-    selectedFundName, 
+    'Valor Neta: ' + selectedFundName, 
     alignedUnitValuesDiffInflationsMoM, 
-    comparedFundName, 
-    alignedComparedUnitValuesDiffInflationsMoM, 
+    'Valor Nominal:' + selectedFundName, 
+    alignedUnitValuesMoM, 
     'Valor de la Unidad VS Inflación', 
-    'Miles de Millones');
+    'Miles de Millones',fill=true);
 

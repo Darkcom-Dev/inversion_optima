@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Statistic, Fund, Indicator
 import json
-import statistics as stats
+
 from django.db.models import Avg, Min, Max, Sum, Count, StdDev, Variance, F, ExpressionWrapper, FloatField 
+
 # Create your views here.
 
 def index(request):
