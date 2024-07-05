@@ -26,66 +26,64 @@ def index(request):
     }
     return render(request, 'fic_benchmark/index.html', context)
 
-def get_values_from_funds(statistics, indicators):
+def get_monthly_values(statistics, indicators):
     periods = []
-    value_funds_MoM = []
-    units_in_circulation_MoM = []
-    unit_values_MoM = []
-    investors_MoM = []
-    profitability_MoM = []
-    volatility_MoM = []
+    fund_values = []
+    units_in_circulation = []
+    unit_values = []
+    investors = []
+    profitability = []
+    volatility = []
 
-    units_per_capita_MoM = []
-    fund_value_per_capita_MoM = []
-    teorical_value_fund_MoM = []
+    units_per_investor = []
+    fund_value_per_investor = []
+    theoretical_fund_value = []
 
-    profitability_diff_inflation_MoM = [] # Poner aqui la resta de la inflación contra los rendmientos
-    unit_values_diff_inflation_MoM = [] # Poner aqui la resta de la inflación contra la valoracion del fondo
+    profitability_diff_inflation = []
+    unit_values_diff_inflation = []
     
     for stat in statistics:
         periods.append(stat.period.strftime('%Y-%m'))
-        value_funds_MoM.append(round(stat.value_fund,2))
-        units_in_circulation_MoM.append(round(stat.units_in_circulation,2))
-        unit_values_MoM.append(round(stat.unit_value,2))
-        investors_MoM.append(stat.investors)
-        profitability_MoM.append(round(stat.profitability,2))
-        volatility_MoM.append(round(stat.volatility,2))
+        fund_values.append(round(stat.value_fund,2))
+        units_in_circulation.append(round(stat.units_in_circulation,2))
+        unit_values.append(round(stat.unit_value,2))
+        investors.append(stat.investors)
+        profitability.append(round(stat.profitability,2))
+        volatility.append(round(stat.volatility,2))
 
-        units_per_capita_MoM.append(round(stat.units_in_circulation / stat.investors,2))
-        fund_value_per_capita_MoM.append(round(stat.value_fund / stat.investors,2))
-        teorical_value_fund_MoM.append(round(stat.unit_value * stat.units_in_circulation / stat.investors,2))
+        units_per_investor.append(round(stat.units_in_circulation / stat.investors,2))
+        fund_value_per_investor.append(round(stat.value_fund / stat.investors,2))
+        theoretical_fund_value.append(round(stat.unit_value * stat.units_in_circulation / stat.investors,2))
 
-        # Filtrar los indicadores que coincidan con el periodo del fondo
         matching_indicators = indicators.filter(period=stat.period)
         
-        # Restar la inflación del porcentaje de rendimiento de los fondos
-        if matching_indicators.first().inflation != None:
-            profitability_diff_inflation_MoM.append(round(stat.profitability - matching_indicators.first().inflation, 2))
+        if matching_indicators.first().inflation:
+            profitability_diff_inflation.append(round(stat.profitability - matching_indicators.first().inflation, 2))
         else:
-            profitability_diff_inflation_MoM.append(stat.profitability)
+            profitability_diff_inflation.append(stat.profitability)
         
-        if matching_indicators.first().interest_rate != None:
-            unit_values_diff_inflation_MoM.append(round(stat.unit_value - matching_indicators.first().interest_rate, 2))
+        if matching_indicators.first().interest_rate:
+            unit_values_diff_inflation.append(round(stat.unit_value - matching_indicators.first().interest_rate, 2))
         else:
-            unit_values_diff_inflation_MoM.append(stat.unit_value)
+            unit_values_diff_inflation.append(stat.unit_value)
 
-    values_dict = {
+    stats_dict = {
         'periods': periods,
-        'value_funds_MoM': value_funds_MoM,
-        'units_in_circulation_MoM': units_in_circulation_MoM,
-        'unit_values_MoM': unit_values_MoM,
-        'investors_MoM': investors_MoM,
-        'profitability_MoM': profitability_MoM,
-        'volatility_MoM': volatility_MoM,
+        'fund_values': fund_values,
+        'units_in_circulation': units_in_circulation,
+        'unit_values': unit_values,
+        'investors': investors,
+        'profitability': profitability,
+        'volatility': volatility,
         
-        'units_per_capita_MoM': units_per_capita_MoM,
-        'fund_value_per_capita_MoM': fund_value_per_capita_MoM,
-        'teorical_value_fund_MoM': teorical_value_fund_MoM,
+        'units_per_investor': units_per_investor,
+        'fund_value_per_investor': fund_value_per_investor,
+        'theoretical_fund_value': theoretical_fund_value,
 
-        'profitability_diff_inflation_MoM': profitability_diff_inflation_MoM,
-        'unit_values_diff_inflation_MoM': unit_values_diff_inflation_MoM
+        'profitability_diff_inflation': profitability_diff_inflation,
+        'unit_values_diff_inflation': unit_values_diff_inflation
     }
-    return values_dict
+    return stats_dict
 
 def get_descriptive_stats(statistics):
     aggregated_stats = statistics.aggregate(
@@ -135,52 +133,70 @@ def get_descriptive_stats(statistics):
 
     return rounded_stats
 
-def get_statistics(fund_id, compare_fund_id):
+def get_filtered_statistics(funds, all_statistics, indicators, compared_fund_id):
+    fund = funds.filter(id=compared_fund_id).first()
+    filtered_statistics = all_statistics.filter(fund__id=compared_fund_id).order_by('period')
+
+    descriptive_stats = {}
+    if filtered_statistics.exists():
+        descriptive_stats = get_descriptive_stats(filtered_statistics)
+
+    stats_dict = get_monthly_values(filtered_statistics, indicators)
+
+    return fund, filtered_statistics, descriptive_stats, stats_dict
+
+def get_comparative_statistics(fund_id, compare_fund_id):
     funds = Fund.objects.all()
-    selected_fund = funds.filter(id=fund_id).first()
-    compared_fund = funds.filter(id=compare_fund_id).first()
     all_statistics = Statistic.objects.all()
-
-    filtered_statistics = all_statistics.filter(fund__id=fund_id).order_by('period')
-    #value_funds_per_capita = filtered_statistics.objects.annotate(sum=F('field1') + F('field2')).values('sum')
-    filtered_stats = {}
-    if filtered_statistics.count() > 0:
-        filtered_stats = get_descriptive_stats(filtered_statistics)
-    compared_filtered_statistics = all_statistics.filter(fund__id=compare_fund_id).order_by('period')
-    compared_stats = {}
-    if compared_filtered_statistics.count() > 0:
-        compared_stats = get_descriptive_stats(compared_filtered_statistics)
-    
-    print(type(filtered_stats))
-
     indicators = Indicator.objects.all().order_by('period')
 
-    values = get_values_from_funds(filtered_statistics, indicators)
-    compared_values = get_values_from_funds(compared_filtered_statistics, indicators)
+    selected_fund, filtered_statistics, filtered_stats, values = get_filtered_statistics(funds, all_statistics, indicators, fund_id)
+    compared_fund, compared_filtered_statistics, compared_stats, compared_values = get_filtered_statistics(funds, all_statistics, indicators, compare_fund_id)
 
     context = {
         'funds': funds,
         'selected_fund': selected_fund,
-        'compared_fund': compared_fund,
         'filtered_statistics': filtered_statistics,
         'filtered_stats': filtered_stats,
         'filtered_stats_json': json.dumps(filtered_stats),
+        'values': json.dumps(values),
+        'compared_fund': compared_fund,
         'compared_filtered_statistics': compared_filtered_statistics,
         'compared_stats': compared_stats,
-        'values': json.dumps(values),
         'compared_values': json.dumps(compared_values),
     }
     return context
 
+def get_statistics(fund_id):
+    funds = Fund.objects.all()
+    all_statistics = Statistic.objects.all()
+    indicators = Indicator.objects.all().order_by('period')
+
+    selected_fund, filtered_statistics, filtered_stats, values = get_filtered_statistics(funds, all_statistics, indicators, fund_id)
+
+    context = {
+        'funds': funds,
+        'selected_fund': selected_fund,
+        'filtered_statistics': filtered_statistics,
+        'filtered_stats': filtered_stats,
+        'filtered_stats_json': json.dumps(filtered_stats),
+        'values': json.dumps(values),
+    }
+    return context
 
 def dates_list_to_string(dates_list):
     return [str(date) for date in dates_list]
 
-def statistics(request):
+def comparative_statistics(request):
     fund_id = request.GET.get('fund_id', request.GET.get('fund.id', None))
     compare_fund_id = request.GET.get('compare_fund_id', request.GET.get('compare_fund.id', None))
-    context = get_statistics(fund_id, compare_fund_id)
+    context = get_comparative_statistics(fund_id, compare_fund_id)
     return render(request, 'fic_benchmark/statistics.html', context)
+
+def fund_statistics(request):
+    fund_id = request.GET.get('fund_id', request.GET.get('fund.id', None))
+    context = get_statistics(fund_id)
+    return render(request, 'fic_benchmark/fund_statistics.html', context)
 
 def calculate_statistics(data, stats_func):
     return round(stats_func(data), 2) if len(data) > 0 else 0

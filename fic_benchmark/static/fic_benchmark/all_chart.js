@@ -3,60 +3,60 @@
 let allPeriods = Array.from(new Set([...values.periods, ...comparedValues.periods])).sort();
 
 // Crear arrays de datos alineados con los períodos fusionados
-let alignedValuesFundsMoM = new Array(allPeriods.length).fill(null);
-let alignedUnitsInCircualtionMoM = new Array(allPeriods.length).fill(null);
-let alignedInvestorsMoM = new Array(allPeriods.length).fill(null);
-let alignedUnitValuesMoM = new Array(allPeriods.length).fill(null);
-let alignedProfitabilityMoM = new Array(allPeriods.length).fill(null);
-let alignedVolatilityMoM = new Array(allPeriods.length).fill(null);
-let alignedUnitsPerCapitaMoM = new Array(allPeriods.length).fill(null);
-let alignedFundValuesPerCapitaMoM = new Array(allPeriods.length).fill(null);
-let alignedTeoricalValueFundsMoM = new Array(allPeriods.length).fill(null);
-let alignedProfitabilityDiffInflationsMoM = new Array(allPeriods.length).fill(null);
-let alignedUnitValuesDiffInflationsMoM = new Array(allPeriods.length).fill(null);
+let alignedFundValues = new Array(allPeriods.length).fill(null);
+let alignedUnitsInCircualtion = new Array(allPeriods.length).fill(null);
+let alignedInvestors = new Array(allPeriods.length).fill(null);
+let alignedUnitValues = new Array(allPeriods.length).fill(null);
+let alignedProfitability = new Array(allPeriods.length).fill(null);
+let alignedVolatility = new Array(allPeriods.length).fill(null);
+let alignedUnitsPerInvestor = new Array(allPeriods.length).fill(null);
+let alignedFundValuesPerInvestor = new Array(allPeriods.length).fill(null);
+let alignedTheoreticalValueFunds = new Array(allPeriods.length).fill(null);
+let alignedProfitabilityDiffInflations = new Array(allPeriods.length).fill(null);
+let alignedUnitValuesDiffInflations = new Array(allPeriods.length).fill(null);
 
 // Llenar alignedValues con los datos del primer fondo
 values.periods.forEach((period, index) => {
     let periodIndex = allPeriods.indexOf(period);
-    alignedValuesFundsMoM[periodIndex] = values.value_funds_MoM[index];
-    alignedUnitsInCircualtionMoM[periodIndex] = values.units_in_circulation_MoM[index];
-    alignedInvestorsMoM[periodIndex] = values.investors_MoM[index];
-    alignedUnitValuesMoM[periodIndex] = values.unit_values_MoM[index];
-    alignedProfitabilityMoM[periodIndex] = values.profitability_MoM[index];
-    alignedVolatilityMoM[periodIndex] = values.volatility_MoM[index];
-    alignedUnitsPerCapitaMoM[periodIndex] = values.units_per_capita_MoM[index];
-    alignedFundValuesPerCapitaMoM[periodIndex] = values.fund_value_per_capita_MoM[index];
-    alignedTeoricalValueFundsMoM[periodIndex] = values.teorical_value_fund_MoM[index];
-    alignedProfitabilityDiffInflationsMoM[periodIndex] = values.profitability_diff_inflation_MoM[index];
-    alignedUnitValuesDiffInflationsMoM[periodIndex] = values.unit_values_diff_inflation_MoM[index];
+    alignedFundValues[periodIndex] = values.fund_values[index];
+    alignedUnitsInCircualtion[periodIndex] = values.units_in_circulation[index];
+    alignedInvestors[periodIndex] = values.investors[index];
+    alignedUnitValues[periodIndex] = values.unit_values[index];
+    alignedProfitability[periodIndex] = values.profitability[index];
+    alignedVolatility[periodIndex] = values.volatility[index];
+    alignedUnitsPerInvestor[periodIndex] = values.units_per_investor[index];
+    alignedFundValuesPerInvestor[periodIndex] = values.fund_value_per_investor[index];
+    alignedTheoreticalValueFunds[periodIndex] = values.theoretical_fund_value[index];
+    alignedProfitabilityDiffInflations[periodIndex] = values.profitability_diff_inflation[index];
+    alignedUnitValuesDiffInflations[periodIndex] = values.unit_values_diff_inflation[index];
 });
 
-let alignedComparedValuesFundsMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedUnitsInCirculationMoM = new Array(allPeriods.length).fill(null);
-let alignedComparatedInvestorsMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedUnitValuesMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedProfitabilityMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedVolatilityMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedUnitsPerCapitaMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedFundValuesPerCapitaMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedTeoricalValueFundsMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedProfitabilityDiffInflationsMoM = new Array(allPeriods.length).fill(null);
-let alignedComparedUnitValuesDiffInflationsMoM = new Array(allPeriods.length).fill(null);
+let alignedComparedFundValues = new Array(allPeriods.length).fill(null);
+let alignedComparedUnitsInCirculation = new Array(allPeriods.length).fill(null);
+let alignedComparedInvestors = new Array(allPeriods.length).fill(null);
+let alignedComparedUnitValues = new Array(allPeriods.length).fill(null);
+let alignedComparedProfitability = new Array(allPeriods.length).fill(null);
+let alignedComparedVolatility = new Array(allPeriods.length).fill(null);
+let alignedComparedUnitsPerInvestor = new Array(allPeriods.length).fill(null);
+let alignedComparedFundValuesPerInvestor = new Array(allPeriods.length).fill(null);
+let alignedComparedTheoreticalFundValues = new Array(allPeriods.length).fill(null);
+let alignedComparedProfitabilityDiffInflations = new Array(allPeriods.length).fill(null);
+let alignedComparedUnitValuesDiffInflations = new Array(allPeriods.length).fill(null);
 
 // Llenar alignedComparedValues con los datos del segundo fondo
 comparedValues.periods.forEach((period, index) => {
     let periodIndex = allPeriods.indexOf(period);
-    alignedComparedValuesFundsMoM[periodIndex] = comparedValues.value_funds_MoM[index];
-    alignedComparedUnitsInCirculationMoM[periodIndex] = comparedValues.units_in_circulation_MoM[index];
-    alignedComparatedInvestorsMoM[periodIndex] = comparedValues.investors_MoM[index];
-    alignedComparedUnitValuesMoM[periodIndex] = comparedValues.unit_values_MoM[index];
-    alignedComparedProfitabilityMoM[periodIndex] = comparedValues.profitability_MoM[index];
-    alignedComparedVolatilityMoM[periodIndex] = comparedValues.volatility_MoM[index];  
-    alignedComparedUnitsPerCapitaMoM[periodIndex] = comparedValues.units_per_capita_MoM[index];
-    alignedComparedFundValuesPerCapitaMoM[periodIndex] = comparedValues.fund_value_per_capita_MoM[index];
-    alignedComparedTeoricalValueFundsMoM[periodIndex] = comparedValues.teorical_value_fund_MoM[index];          
-    alignedComparedProfitabilityDiffInflationsMoM[periodIndex] = comparedValues.profitability_diff_inflation_MoM[index];
-    alignedComparedUnitValuesDiffInflationsMoM[periodIndex] = comparedValues.unit_values_diff_inflation_MoM[index];
+    alignedComparedFundValues[periodIndex] = comparedValues.fund_values[index];
+    alignedComparedUnitsInCirculation[periodIndex] = comparedValues.units_in_circulation[index];
+    alignedComparedInvestors[periodIndex] = comparedValues.investors[index];
+    alignedComparedUnitValues[periodIndex] = comparedValues.unit_values[index];
+    alignedComparedProfitability[periodIndex] = comparedValues.profitability[index];
+    alignedComparedVolatility[periodIndex] = comparedValues.volatility[index];  
+    alignedComparedUnitsPerInvestor[periodIndex] = comparedValues.units_per_investor[index];
+    alignedComparedFundValuesPerInvestor[periodIndex] = comparedValues.fund_value_per_investor[index];
+    alignedComparedTheoreticalFundValues[periodIndex] = comparedValues.theoretical_fund_value[index];          
+    alignedComparedProfitabilityDiffInflations[periodIndex] = comparedValues.profitability_diff_inflation[index];
+    alignedComparedUnitValuesDiffInflations[periodIndex] = comparedValues.unit_values_diff_inflation[index];
 });
 
 const medianUnitValueLineData = new Array(allPeriods.length).fill(stats.unit_value_avg);
@@ -64,93 +64,93 @@ const meanProfitabilityLineData = new Array(allPeriods.length).fill(stats.profit
 
 drawComparativeChart('comparative_value_funds', 
     selectedFundName, 
-    alignedValuesFundsMoM, 
+    alignedFundValues, 
     comparedFundName, 
-    alignedComparedValuesFundsMoM, 
+    alignedComparedFundValues, 
     'Valor del fondo en Miles de Millones', 
     'Miles de Millones');
 
 drawComparativeChart('comparative_units_in_circulation', 
     selectedFundName, 
-    alignedUnitsInCircualtionMoM, 
+    alignedUnitsInCircualtion, 
     comparedFundName, 
-    alignedComparedUnitsInCirculationMoM, 
+    alignedComparedUnitsInCirculation, 
     'Unidades en circulación', 
     'Unidades');
 
 drawComparativeChart('comparative_investors', 
     selectedFundName, 
-    alignedInvestorsMoM, 
+    alignedInvestors, 
     comparedFundName, 
-    alignedComparatedInvestorsMoM, 
+    alignedComparedInvestors, 
     'Cantidad de Inversionistas', 
     'Inversionistas');
 
 drawComparativeChartWithMean('comparative_unit_values', 
     selectedFundName, 
-    alignedUnitValuesMoM, 
+    alignedUnitValues, 
     comparedFundName, 
-    alignedComparedUnitValuesMoM, 
+    alignedComparedUnitValues, 
     medianUnitValueLineData,
     'Valor de la Unidad', 
     'COP por Unidad');
 
 drawComparativeChartWithMean('comparative_profitability', 
     selectedFundName, 
-    alignedProfitabilityMoM, 
+    alignedProfitability, 
     comparedFundName, 
-    alignedComparedProfitabilityMoM, 
+    alignedComparedProfitability, 
     meanProfitabilityLineData, 
     'Valor del fondo en Miles de Millones', 
     'Miles de Millones');
 
 drawComparativeChart('comparative_volatility', 
     selectedFundName, 
-    alignedVolatilityMoM, 
+    alignedVolatility, 
     comparedFundName, 
-    alignedComparedVolatilityMoM, 
+    alignedComparedVolatility, 
     'Volatilidad', 
     'Porcentaje');
 
 drawComparativeChart('comparative_units_per_capita', 
     selectedFundName, 
-    alignedUnitsPerCapitaMoM, 
+    alignedUnitsPerInvestor, 
     comparedFundName, 
-    alignedComparedUnitsPerCapitaMoM, 
+    alignedComparedUnitsPerInvestor, 
     'Unidades por persona', 
     'Unidades',
     true);
 
 drawComparativeChart('comparative_unit_value_per_capita', 
     selectedFundName, 
-    alignedFundValuesPerCapitaMoM, 
+    alignedFundValuesPerInvestor, 
     comparedFundName, 
-    alignedComparedFundValuesPerCapitaMoM, 
+    alignedComparedFundValuesPerInvestor, 
     'Valor del fondo por persona', 
     'Miles de Millones',
     true);
 
 drawComparativeChart('comparative_teorical_value_fund', 
     selectedFundName, 
-    alignedTeoricalValueFundsMoM, 
+    alignedTheoreticalValueFunds, 
     comparedFundName, 
-    alignedComparedTeoricalValueFundsMoM, 
+    alignedComparedTheoreticalFundValues, 
     'Valor teórico del fondo', 
     'Miles de Millones');
 
 drawComparativeChart('comparative_profitability_diff_inflation', 
     'Rentabilidad Neta: ' + selectedFundName, 
-    alignedProfitabilityDiffInflationsMoM, 
+    alignedProfitabilityDiffInflations, 
     'Rentabilidad Nominal: '+ selectedFundName,
-    alignedProfitabilityMoM,
+    alignedProfitability,
     'Diferencia de rentabilidad VS Inflación', 
     'Porcentaje', fill=false, logarithmic=true);
 
 drawComparativeChart('comparative_unit_values_diff_inflation', 
     'Valor Neta: ' + selectedFundName, 
-    alignedUnitValuesDiffInflationsMoM, 
+    alignedUnitValuesDiffInflations, 
     'Valor Nominal:' + selectedFundName, 
-    alignedUnitValuesMoM, 
+    alignedUnitValues, 
     'Valor de la Unidad VS Inflación', 
     'Miles de Millones',fill=true);
 
