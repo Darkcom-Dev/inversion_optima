@@ -78,7 +78,12 @@ function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel, loga
     });
   }
   
-  function drawComparativeChartWithMean(chartElementId, selectedLabel, selectedData, compareLabel, compareData, meanData, chartTitle, yAxisLabel, logarithmScale = false, fill=false) {
+  function drawComparativeChartWithMean(chartElementId, selectedLabel, 
+    selectedData, compareLabel, compareData, meanData, 
+    chartTitle, yAxisLabel, 
+    logarithmScale = false, 
+    fill=false, 
+    fillMean = false) {
     const chartElement = document.getElementById(chartElementId);
     const chart = new Chart(chartElement, {
       type: 'line',
@@ -103,10 +108,11 @@ function drawChart(chartId, selectedLabel, selectedData, title, yAxisLabel, loga
           {
             label: `Media de ${selectedLabel}`,
             data: meanData,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            backgroundColor: 'rgba(255,132, 132, 0.2)',
+            borderColor: 'rgba(255, 132, 132, 1)',
             borderWidth: 2,
             borderDash: [10, 5],
-            fill:  true
+            fill:  fillMean ? true : false
           }
         ]
       },

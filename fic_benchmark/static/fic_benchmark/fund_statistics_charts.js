@@ -31,3 +31,33 @@ const medianUnitValueLineData = new Array(allPeriods.length).fill(stats.unit_val
 const meanProfitabilityLineData = new Array(allPeriods.length).fill(stats.profitability_avg);
 
 drawChart('fund_values', selectedFundName, alignedFundValues, 'Valor del Fondo', 'Miles de millones', false, true);
+
+drawChart('units_in_circulation', selectedFundName, alignedUnitsInCirculation, 'Unidades en Circulación', 'Unidades', false, true);
+
+drawComparativeChartWithMean('unit_value', 
+    'Valor de la Unidad Nominal:' + selectedFundName,
+    alignedUnitValuesDiffInflations,
+    'Valor de la Unidad Neta:' + selectedFundName, 
+    alignedUnitValues,
+    medianUnitValueLineData,
+    'Valor de la Unidad', 
+    'Valor en COP', false, true, fillMean=false);
+
+drawChart('investors', selectedFundName, alignedInvestors, 'Inversionistas', 'Inversionistas', false, true);
+
+drawComparativeChartWithMean('profitability', 
+    'Rentabilidad Neta:' + selectedFundName, 
+    alignedProfitabilityDiffInflations, 
+    'Rentabilidad Nominal:' + selectedFundName,
+    alignedProfitability,
+    meanProfitabilityLineData,
+    'Rentabilidad', 'Porcentaje',
+    logarithmScale=false, 
+    fill=true, fillMean=false
+);
+
+drawChart('volatility', selectedFundName, alignedVolatility, 'Volatilidad', 'Porcentaje', false, true);
+
+drawChart('fund_by_investor', selectedFundName, alignedFundValuesPerInvestor, 'Unidades por inversor', 'Unidades', false, true);
+
+drawChart('units_per_investor', selectedFundName, alignedUnitsPerInvestor, 'Unidades por inversor', 'Unidades', false, true);
