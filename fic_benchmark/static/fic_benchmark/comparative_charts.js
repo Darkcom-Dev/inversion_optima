@@ -11,6 +11,7 @@ let alignedProfitability = new Array(allPeriods.length).fill(null);
 let alignedVolatility = new Array(allPeriods.length).fill(null);
 let alignedUnitsPerInvestor = new Array(allPeriods.length).fill(null);
 let alignedFundValuesPerInvestor = new Array(allPeriods.length).fill(null);
+// Las siguientes 3 variables no veo necesidad de usarlos
 let alignedTheoreticalValueFunds = new Array(allPeriods.length).fill(null);
 let alignedProfitabilityDiffInflations = new Array(allPeriods.length).fill(null);
 let alignedUnitValuesDiffInflations = new Array(allPeriods.length).fill(null);
@@ -39,6 +40,7 @@ let alignedComparedProfitability = new Array(allPeriods.length).fill(null);
 let alignedComparedVolatility = new Array(allPeriods.length).fill(null);
 let alignedComparedUnitsPerInvestor = new Array(allPeriods.length).fill(null);
 let alignedComparedFundValuesPerInvestor = new Array(allPeriods.length).fill(null);
+// Las siguientes 3 variables no veo necesidad de usarlos
 let alignedComparedTheoreticalFundValues = new Array(allPeriods.length).fill(null);
 let alignedComparedProfitabilityDiffInflations = new Array(allPeriods.length).fill(null);
 let alignedComparedUnitValuesDiffInflations = new Array(allPeriods.length).fill(null);
@@ -112,7 +114,7 @@ drawComparativeChart('comparative_volatility',
     'Volatilidad', 
     'Porcentaje');
 
-drawComparativeChart('comparative_units_per_capita', 
+drawComparativeChart('comparative_units_by_investor', 
     selectedFundName, 
     alignedUnitsPerInvestor, 
     comparedFundName, 
@@ -121,7 +123,7 @@ drawComparativeChart('comparative_units_per_capita',
     'Unidades',
     true);
 
-drawComparativeChart('comparative_unit_value_per_capita', 
+drawComparativeChart('comparative_value_by_investor', 
     selectedFundName, 
     alignedFundValuesPerInvestor, 
     comparedFundName, 
@@ -130,27 +132,4 @@ drawComparativeChart('comparative_unit_value_per_capita',
     'Miles de Millones',
     true);
 
-drawComparativeChart('comparative_teorical_value_fund', 
-    selectedFundName, 
-    alignedTheoreticalValueFunds, 
-    comparedFundName, 
-    alignedComparedTheoreticalFundValues, 
-    'Valor teórico del fondo', 
-    'Miles de Millones');
-
-drawComparativeChart('comparative_profitability_diff_inflation', 
-    'Rentabilidad Neta: ' + selectedFundName, 
-    alignedProfitabilityDiffInflations, 
-    'Rentabilidad Nominal: '+ selectedFundName,
-    alignedProfitability,
-    'Diferencia de rentabilidad VS Inflación', 
-    'Porcentaje', fill=false, logarithmic=true);
-
-drawComparativeChart('comparative_unit_values_diff_inflation', 
-    'Valor Neta: ' + selectedFundName, 
-    alignedUnitValuesDiffInflations, 
-    'Valor Nominal:' + selectedFundName, 
-    alignedUnitValues, 
-    'Valor de la Unidad VS Inflación', 
-    'Miles de Millones',fill=true);
 
