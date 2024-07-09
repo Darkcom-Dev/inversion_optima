@@ -10,7 +10,18 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
-
+    <script>
+      function openTab(tabName) {
+        // Ocultar todos los contenidos de las pestañas
+        var tabContents = document.getElementsByClassName("tab-content");
+        for (var i = 0; i < tabContents.length; i++) {
+          tabContents[i].style.display = "none";
+        }
+        
+        // Mostrar el contenido de la pestaña seleccionada
+        document.getElementById(tabName).style.display = "block";
+      }
+    </script>
 </head>
 <body>
   <header>

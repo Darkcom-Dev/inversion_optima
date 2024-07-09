@@ -107,6 +107,7 @@ nav{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
     border-radius: 5px;
     padding: 5px;
@@ -252,3 +253,40 @@ summary{
     cursor: pointer;
     transition: height 0.5s ease, rotate 0.5s ease;
 }
+
+/* Experimental */
+
+/* Estilos para las pestañas */
+.tab {
+   display: none;
+ }
+ 
+ /* Estilos para el contenido de las pestañas */
+ .tab-content {
+   display: none;
+ }
+
+ div.tabs {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+ }
+
+ button.button-tabs {
+   background-color: rgba(0, 0, 0, 0.1);
+   border-top-left-radius: 5px;
+   border-top-right-radius: 5px;
+   font-weight: bolder;
+   color: light-dark(var(--text-color), var(--dark-text-color));
+   border: none;
+   cursor: pointer;
+   transition: background-color 0.5s;
+
+ }
+
+ button.button-tabs:hover {
+   background-color: light-dark(var(--primary-button-background), var(--dark-primary-button-background));
+   color: light-dark(var(--primary-button-text), var(--dark-primary-button-text));
+
+ }
+   

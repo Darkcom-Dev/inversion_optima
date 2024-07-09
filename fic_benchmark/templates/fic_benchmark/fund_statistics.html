@@ -26,6 +26,84 @@
 el fondo inició operaciones a la fecha: {{selected_fund.start_of_operations|date:"d/m/Y"}}, sin embargo no todas muestran fichas tecnicas desde su fecha de inicio. <br>
 Si desea ver este fondo con sus fichas tecnicas, por favor <a href="{{selected_fund.url}}">haga click aquí</a>.
 </p>
+
+
+<div class="graficas">
+    <!-- Pestañas -->
+    <h2>Gráficas de {{ selected_fund.name }}</h2>
+    <div class="tabs">
+        <button class="button-tabs" onclick="openTab('fund_values_tab')">Valor</button>
+        <button class="button-tabs" onclick="openTab('units_circulation')">Unidades</button>
+        <button class="button-tabs" onclick="openTab('investors_tab')">Inversionistas</button>
+        <button class="button-tabs" onclick="openTab('unit_values')">Valor Unidad</button>
+        <button class="button-tabs" onclick="openTab('rentabilidad')">Rentabilidad</button>
+        <button class="button-tabs" onclick="openTab('volatilidad')">Volatilidad</button>
+        <button class="button-tabs" onclick="openTab('fund_investor')">Fondo x Inversor</button>
+        <button class="button-tabs" onclick="openTab('unit_investor')">Unidades x Inversor</button>
+    </div>
+
+    
+    <!-- Contenido de las pestañas -->
+    
+    <div id="fund_values_tab" class="tab-content">
+        <h3>Valor del fondo</h3>
+        <canvas id="fund_values" width="400" height="200"></canvas>
+        <p>El valor del fondo representa el total de la inversión de {{selected_fund.name}} a traves del tiempo.</p>
+        <p>Esta es la representación del dinero de los inversionistas en conjunto con los rendimientos obtenidos por el fondo, ya sea por valorizacion o dividendos</p>
+    </div>
+    
+    <div id="units_circulation" class="tab-content">
+        <h3>Unidades en circulación</h3>
+        <canvas id="units_in_circulation" width="400" height="200"></canvas>
+        <p>Representa la totalidad de las unidades en circulación, muchas unidades pueden diluir el valor de la unidad</p>
+        <p>Los fondos de inversion tienen la tendencia a mantener un valor de unidad casi estático en precio y es donde está la trampa de la inversion en estos fondos.</p>
+    </div>
+    
+    <div id="investors_tab" class="tab-content">
+        <h3>Inversionistas</h3>
+        <canvas id="investors" width="400" height="200"></canvas>
+        <p>Es el total de inversionistas que han invertido en este fondo</p>
+        <p>La cantidad de inversionistas es un indicador de popularidad o interes en el fondo</p>
+    </div>
+    
+    <div id="unit_values" class="tab-content">
+      <h3>Valor por Unidad</h3>
+        <canvas id="unit_value" width="400" height="200"></canvas>
+        <p>El valor de la unidad se obtiene de la division del valor del fondo entre las unidades en circulación, tambien es el dato mas importante para el inversionista porque representa la rentabilidad</p>
+        <p>El valor de la unidad es un indicador de la rentabilidad de la inversión</p>
+        <p>Si sientes que tu inversion no está rentando como esperas, debes vigilar de cerca las unidades en circulación</p>
+        <p>La media del valor de la unidad es un indicador del valor justo de la unidad que es actualmente de {{filtered_stats.unit_value_avg|intcomma}} de pesos, dicho valor nos indica si la unidad está barata o cara. </p>
+    </div>
+    
+    <div id="rentabilidad" class="tab-content">
+        <h3>Rentabilidad</h3>
+        <canvas id="profitability" width="400" height="200"></canvas>
+        <p>Representa la rentabilidad de la inversión en porcentaje efectivo anual pero mes a mes respecto al mismo mes del año anterior</p>
+        <p>Este indicador debe batir a la inflación para demostrar que es un fondo rentable a traves del tiempo, tambien es un indicador de la calidad del fondo.</p>
+        <p>La media representa la rentabilidad promedio Efectivo Anual de la inversión, en este caso representa un {{filtered_stats.profitability_avg|intcomma}}%</p>
+        <!-- p>{{ inflation_stats.avg_inflation }} promedio de la inflación</p -->
+    </div>
+    
+    <div id="volatilidad" class="tab-content">
+        <h3>Volatilidad</h3>
+        <canvas id="volatility" width="400" height="200"></canvas>
+        <p>Representa la volatilidad de la inversión, entre mas bajo sea el porcentaje, corresponde a un perfil conservador y entre mas alto sea el porcentaje, corresponde a un perfil de alto riesgo</p>
+        <p>No es un indicador realmente importante, a menos que quieras comprobar que el fondo es coherente con el perfil de riesgo.</p>
+    </div>
+    
+    <div id="fund_investor" class="tab-content">
+        <h3>Valor del fondo por inversor</h3>
+        <canvas id="fund_by_investor" width="400" height="200"></canvas>
+        <p>Representa el valor del fondo por inversor, esto representa en promedio la participacion de cada inversor y es una medida de cuanto dinero invertir para obtener una rentabilidad significativa.</p>
+    </div>
+
+    <div id="unit_investor" class="tab-content">
+      <h3>Unidades en circulación por inversor</h3>
+      <canvas id="units_per_investor" width="400" height="200"></canvas>
+      <p>Representa la cantidad de unidades en circulación por inversor, esto es una medida de la participacion de cada inversor en el fondo. Tambien es un indicador de las participaciones minima para obtener un rendimiento significativo</p>
+    </div>
+</div>
+
 <p>A continuación, se muestran las estadísticas de {{selected_fund.name}} resumidas en una tabla.</p>
 <section>
     <details>
@@ -121,87 +199,6 @@ Si desea ver este fondo con sus fichas tecnicas, por favor <a href="{{selected_f
     </details>
 </section>
 
-<h2>Gráficas de {{ selected_fund.name }}</h2>
-
-<section>
-    <details>
-        <summary><b>Valor del fondo: {{selected_fund.name}}</b></summary>
-        
-        <p>El valor del fondo representa el total de la inversión de {{selected_fund.name}} a traves del tiempo.</p>
-        <p>Esta es la representación del dinero de los inversionistas en conjunto con los rendimientos obtenidos por el fondo, ya sea por valorizacion o dividendos</p>
-        
-        <canvas id="fund_values" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary><b>Unidades en circulación: {{selected_fund.name}}</b></summary>
-        <p>Representa la totalidad de las unidades en circulación, muchas unidades pueden diluir el valor de la unidad</p>
-        <p>Los fondos de inversion tienen la tendencia a mantener un valor de unidad casi estático en precio y es donde está la trampa de la inversion en estos fondos.</p>
-
-        <canvas id="units_in_circulation" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary><b>Valor de la unidad: {{selected_fund.name}}</b></summary>
-        <p>El valor de la unidad se obtiene de la division del valor del fondo entre las unidades en circulación, tambien es el dato mas importante para el inversionista porque representa la rentabilidad</p>
-        <p>El valor de la unidad es un indicador de la rentabilidad de la inversión</p>
-        <p>Si sientes que tu inversion no está rentando como esperas, debes vigilar de cerca las unidades en circulación</p>
-        <p>La media del valor de la unidad es un indicador del valor justo de la unidad que es actualmente de {{filtered_stats.unit_value_avg|intcomma}} de pesos, dicho valor nos indica si la unidad está barata o cara. </p>
-        <canvas id="unit_value" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary><b>Inversionistas: {{selected_fund.name}}</b></summary>
-        <p>Es el total de inversionistas que han invertido en este fondo</p>
-        <p>La cantidad de inversionistas es un indicador de popularidad o interes en el fondo</p>
-
-        <canvas id="investors" width="400" height="200"></canvas>
-</section>
-
-<section>
-    <details>
-        <summary><b>Rentabilidad: {{selected_fund.name}}</b></summary>
-        <p>Representa la rentabilidad de la inversión en porcentaje efectivo anual pero mes a mes respecto al mismo mes del año anterior</p>
-        <p>Este indicador debe batir a la inflación para demostrar que es un fondo rentable a traves del tiempo, tambien es un indicador de la calidad del fondo.</p>
-        <p>La media representa la rentabilidad promedio Efectivo Anual de la inversión, en este caso representa un {{filtered_stats.profitability_avg|intcomma}}%</p>
-        <!-- p>{{ inflation_stats.avg_inflation }} promedio de la inflación</p -->
-        <canvas id="profitability" width="400" height="200"></canvas>
-</section>
-
-<section>
-    <details>
-        <summary><b>Volatilidad: {{selected_fund.name}}</b></summary>
-        <p>Representa la volatilidad de la inversión, entre mas bajo sea el porcentaje, corresponde a un perfil conservador y entre mas alto sea el porcentaje, corresponde a un perfil de alto riesgo</p>
-        <p>No es un indicador realmente importante, a menos que quieras comprobar que el fondo es coherente con el perfil de riesgo.</p>
-
-        <canvas id="volatility" width="400" height="200"></canvas>
-</section>
-
-<h2>Gráficas de Exploración de datos</h2>
-
-<section>
-    <details>
-        <summary>Valor del fondo por inversor</summary>
-        <p>Representa el valor del fondo por inversor, esto representa en promedio la participacion de cada inversor y es una medida de cuanto dinero invertir para obtener una rentabilidad significativa.</p>
-        <canvas id="fund_by_investor" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary>Unidades en circulación por inversor</summary>
-        <p>Representa la cantidad de unidades en circulación por inversor, esto es una medida de la participacion de cada inversor en el fondo. Tambien es un indicador de las participaciones minima para obtener un rendimiento significativo</p>
-        <canvas id="units_per_investor" width="400" height="200"></canvas>
-    </details>
-</section>
-
-
 
 {% endblock %}
 {% block extra_js %}
@@ -211,6 +208,8 @@ Si desea ver este fondo con sus fichas tecnicas, por favor <a href="{{selected_f
     let stats = JSON.parse('{{ filtered_stats_json|safe|escapejs }}');
     console.log("stats: " + stats);
 </script>
-
+<script>
+    document.getElementById("fund_values_tab").style.display = "block";
+</script>
 <script src="{% static 'fic_benchmark/fund_statistics_charts.js' %}"></script>
 {% endblock %}

@@ -37,6 +37,7 @@
              <b>{{fund.get_fic_type_display}}</b> Tipo de inversión: <b>{{fund.get_investment_type_display}}</b>
              </p>
              <a href="{{fund.url}}">web del fondo</a>
+             <a href="{% url 'fic_benchmark:fund_statistics' %}?fund_id={{fund.id}}">estadisticas</a>
          </details>
     {% endfor %}
 </section>

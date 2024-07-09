@@ -37,8 +37,73 @@ A continuacion veras un formulario para seleccionar dos fondos a comparar.</p>
         {% endfor %}
     </select><br>
     <button type="submit">Filtrar</button><hr>
-
 </form>
+
+<div class="graficas">
+    <!-- Pestañas -->
+    <h2>Gráficas de {{selected_fund.name}} vs {{compared_fund.name}}</h2>
+    <div class="tabs">
+        <button class="button-tabs" onclick="openTab('fund_values')">Valor</button>
+        <button class="button-tabs" onclick="openTab('units_circulation')">Unidades</button>
+        <button class="button-tabs" onclick="openTab('investors')">Inversionistas</button>
+        <button class="button-tabs" onclick="openTab('unit_values')">Valor Unidad</button>
+        <button class="button-tabs" onclick="openTab('rentabilidad')">Rentabilidad</button>
+        <button class="button-tabs" onclick="openTab('volatilidad')">Volatilidad</button>
+        <button class="button-tabs" onclick="openTab('unit_investor')">Unidades x Inversor</button>
+        <button class="button-tabs" onclick="openTab('fund_investor')">Fondo x Inversor</button>        
+    </div>
+    
+    <!-- Contenido de las pestañas -->
+    
+    <div id="fund_values" class="tab-content">
+      <h3>Valor de los fondos</h3>
+      <canvas id="comparative_value_funds" width="400" height="200"></canvas>
+      <p>El valor de los fondos refleja la cantidad de dinero que maneja un fondo, es una muestra de confianza, pero tambien es una muestra de crecimiento, cuanto mas grande es un fondo, mas conservador tiende a ser y por tanto menor crecimiento.</p>
+    </div>
+    
+    <div id="units_circulation" class="tab-content">
+      <h3>Unidades en circulación</h3>
+      <canvas id="comparative_units_in_circulation" width="400" height="200"></canvas>
+      <p>Las unidades en circulación reflejan la cantidad de acciones que tiene un fondo, a medida que hay mas dinero en el fondo, tambien aumenta la cantidad de unidades en circulación y a su vez mayor dilucion de la inversion para el inversor, este es el punto decepcionante de los fondos.</p>
+    </div>
+    
+    <div id="investors" class="tab-content">
+      <h3>Inversionistas</h3>
+      <canvas id="comparative_investors" width="400" height="200"></canvas>
+      <p>La cantidad de inversionistas demuestra si un fondo es interesante o no, si la cantidad de inversionistas es creciente, es un indicador que el fondo lo está haciendo bien o que el momento economico es propicio para el fondo, si la tendencia es a la baja, puede indicar que el interes se está perdiendo o que el fondo lo está hacendo mal o que el momento economico no es propicio.</p>
+    </div>
+    
+    <div id="unit_values" class="tab-content">
+      <h3>Valor de Unidades</h3>
+      <canvas id="comparative_unit_values" width="400" height="200"></canvas>
+      <p>El valor de la unidad es la variable que afecta el rendimiento del inversionista directamente, es el unico dato que importa y al que hay que dedicarle mas estudio. Cuando el valor de la unidad es muy alto, es probable que no tenga mucho margen de crecimiento, cuando el valor de la unidad está debajo de la media quizas sea interesante comprar unidades dl fondo, porque está barato y tiene margen de crecimiento. </p>
+    </div>
+    
+    <div id="rentabilidad" class="tab-content">
+      <h3>Rentabilidad</h3>
+      <canvas id="comparative_profitability" width="400" height="200"></canvas>
+      <p>La rentabilidad es efectiva anual, no es la rentabilidad mensual, y esta es comparable con el mismo mes del año anterior</p>
+    </div>
+    
+    <div id="volatilidad" class="tab-content">
+      <h3>Volatilidad</h3>
+      <canvas id="comparative_volatility" width="400" height="200"></canvas>
+      <p>La volatilidad es la desviación estandar de la rentabilidad diaria hasta cumplir el mes, Es la variable que clasifica el nivel de riesgo del fondo.</p>
+    </div>
+    
+    <div id="unit_investor" class="tab-content">
+      <h3>Unidades por inversor</h3>
+      <canvas id="comparative_units_by_investor" width="400" height="200"></canvas>
+      <p>Esta es una metrica que no está en las fichas tecnicas, para calcular la cantidad significativa de unidades a comprar en el fondo para tener una rentabilidad significativa. esta se calcula dividiendo las unidades en circulación sobre la cantidad de inversionistas</p>
+    </div>
+    
+    <div id="fund_investor" class="tab-content">
+      <h3>Valor del fondo por inversor</h3>
+      <canvas id="comparative_value_by_investor" width="400" height="200"></canvas>
+      <p>Esta es una metrica que no está en las fichas tecnicas, para calcular la cantidad de dinero significativa a invertir en el fondo para tener una rentabilidad significativa, esta se calcula dividiendo el valor del fondo sobre la cantidad de inversionistas</p>
+    </div>
+</div>
+
 <section>
     <details>
         <summary>Tablas de {{ selected_fund.name }} - Riesgo: <b>{{selected_fund.get_risk_level_display}}</b> Calificación: <b>{{selected_fund.get_rating_display}}</b></summary>
@@ -228,77 +293,12 @@ A continuacion veras un formulario para seleccionar dos fondos a comparar.</p>
     </details>
 </section>
 
-<h4>Gráficas de {{selected_fund.name}} vs {{compared_fund.name}}</h4>
-
-<section>
-    <details>
-        <summary>Valor de los fondos</summary>
-        <p>El valor de los fondos refleja la cantidad de dinero que maneja un fondo, es una muestra de confianza, pero tambien es una muestra de crecimiento, cuanto mas grande es un fondo, mas conservador tiende a ser y por tanto menor crecimiento.</p>
-        <canvas id="comparative_value_funds" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary>Unidades en circulación</summary>
-        <p>Las unidades en circulación reflejan la cantidad de acciones que tiene un fondo, a medida que hay mas dinero en el fondo, tambien aumenta la cantidad de unidades en circulación y a su vez mayor dilucion de la inversion para el inversor, este es el punto decepcionante de los fondos.</p>
-        <canvas id="comparative_units_in_circulation" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary>Inversionistas en ambos fondos</summary>
-        <p>La cantidad de inversionistas demuestra si un fondo es interesante o no, si la cantidad de inversionistas es creciente, es un indicador que el fondo lo está haciendo bien o que el momento economico es propicio para el fondo, si la tendencia es a la baja, puede indicar que el interes se está perdiendo o que el fondo lo está hacendo mal o que el momento economico no es propicio.</p>
-        <canvas id="comparative_investors" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary>Valores de Unidades</summary>
-        <p>El valor de la unidad es la variable que afecta el rendimiento del inversionista directamente, es el unico dato que importa y al que hay que dedicarle mas estudio. Cuando el valor de la unidad es muy alto, es probable que no tenga mucho margen de crecimiento, cuando el valor de la unidad está debajo de la media quizas sea interesante comprar unidades dl fondo, porque está barato y tiene margen de crecimiento. </p>
-        <canvas id="comparative_unit_values" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary>Rentabilidad</summary>
-        <p>La rentabilidad es efectiva anual, no es la rentabilidad mensual, y esta es comparable con el mismo mes del año anterior</p>
-        <canvas id="comparative_profitability" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary>Volatilidad</summary>
-        <p>La volatilidad es la desviación estandar de la rentabilidad diaria hasta cumplir el mes, Es la variable que clasifica el nivel de riesgo del fondo.</p>
-        <canvas id="comparative_volatility" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<h2>Variables calculadas a partir de las fichas tecnicas</h2>
-
-<section>
-    <details>
-        <summary>Unidades por inversor</summary>
-        <p>Esta es una metrica que no está en las fichas tecnicas, para calcular la cantidad significativa de unidades a comprar en el fondo para tener una rentabilidad significativa. esta se calcula dividiendo las unidades en circulación sobre la cantidad de inversionistas</p>
-        <canvas id="comparative_units_by_investor" width="400" height="200"></canvas>
-    </details>
-</section>
-
-<section>
-    <details>
-        <summary>Valor del fondo por inversor</summary>
-        <p>Esta es una metrica que no está en las fichas tecnicas, para calcular la cantidad de dinero significativa a invertir en el fondo para tener una rentabilidad significativa, esta se calcula dividiendo el valor del fondo sobre la cantidad de inversionistas</p>
-        <canvas id="comparative_value_by_investor" width="400" height="200"></canvas>
-    </details>
-</section>
-
-
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'fic_benchmark/comparative_charts.js' %}"></script>
+<script>
+    // Mostrar la primera pestaña por defecto
+    document.getElementById("fund_values").style.display = "block";
+</script>
 {% endblock %}
   
