@@ -5,7 +5,8 @@ import json
 from django.db.models import Avg, Min, Max, Sum, Count, StdDev, Variance, F, ExpressionWrapper, FloatField 
 
 # Create your views here.
-
+founder = "Braulio Madrid"
+email = "brauliomadrid.developer@gmail.com"
 def index(request):
     rating = request.GET.get('rating', '')
     risk = request.GET.get('risk', '')
@@ -18,6 +19,7 @@ def index(request):
     if risk:
         funds = funds.filter(risk_level=risk)
     context = {
+        'email': email,
         'funds': funds,
         'selected_rating': rating,
         'selected_risk': risk,
@@ -154,6 +156,7 @@ def get_comparative_statistics(fund_id, compare_fund_id):
     compared_fund, compared_filtered_statistics, compared_stats, compared_values = get_filtered_statistics(funds, all_statistics, indicators, compare_fund_id)
 
     context = {
+        'email': email,
         'funds': funds,
         'selected_fund': selected_fund,
         'filtered_statistics': filtered_statistics,
@@ -175,6 +178,7 @@ def get_statistics(fund_id):
     selected_fund, filtered_statistics, filtered_stats, values = get_filtered_statistics(funds, all_statistics, indicators, fund_id)
 
     context = {
+        'email': email,
         'funds': funds,
         'selected_fund': selected_fund,
         'filtered_statistics': filtered_statistics,
@@ -235,6 +239,7 @@ def indicators(request):
     }
 
     context = {
+        'email': email,
         'indicators': indicators,
         'inflation_stats': inflation_stats,
         'interest_rate_stats': interest_rate_stats,
@@ -242,3 +247,24 @@ def indicators(request):
     }
 
     return render(request, 'fic_benchmark/indicators.html', context)
+
+# Otras páginas estáticas que no usan ningun modelo:
+
+def terminos_y_condiciones(request):
+    context = {
+        'email': email
+    }
+    return render(request, 'main/TyC.html', context)
+
+def acerca_de(request):
+    context = {
+        'founder': founder,
+        'email': email
+    }
+    return render(request, 'main/acerca_de.html', context)
+
+def politicas_de_privacidad(request):
+    context = {
+        'email': email
+    }
+    return render(request, 'main/politica_de_privacidad.html', context)

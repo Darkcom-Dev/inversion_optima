@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'fic_benchmark/style.css' %}">
+    <link rel="icon" type="image/svg" href="{% static 'fic_benchmark/logo.svg' %}">
     <title>{% block title %}Inversion Optima{% endblock %}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -18,7 +19,7 @@
     <div class="header-top">
       <div class="logo" style="border-radius: 20px; border-color: antiquewhite;">
         <img src="{% static 'fic_benchmark/logo.svg' %}" alt="logo" width="128px">
-        <h1>Inversión <br>Óptima</h1>
+        <h1 style="color: white;">Inversión <br>Óptima</h1>
       </div>
 
       <div class="header-menu">
@@ -40,8 +41,8 @@
       <a href="{% url 'fic_benchmark:statistics' %}">Comparativa</a>
       <a href="{% url 'fic_benchmark:indicators' %}">Indicadores</a>
       <a href="{% url 'fic_benchmark:fund_statistics' %}">Estadisticas</a>
-      <a href="{% url 'fic_benchmark:fund_statistics' %}">Nosotros</a>
-      <p> -- espacio -- </p>
+      <a href="{% url 'fic_benchmark:acerca-de' %}">Acerca de</a>
+      <!--  p> -- espacio -- </p -->
       <button id="dark-mode-toggle" class="split">Dark Mode</button>
     </nav>
     <script src="{% static 'fic_benchmark/theme_toggle.js' %}"></script>
@@ -57,29 +58,33 @@
     </div>
     <hr>
     <footer>
+      <div class="footer-container" style="width: 90%;">
         <div class="footer-info">
-          <p>© 2024 Inversion Optima. Todos los derechos reservados.</p>
-          <p>Contacto: <a href="mailto:info@empresa.com">info@empresa.com</a></p>
+          <p>&copy; 2024 Inversion Optima. Todos los derechos reservados.</p>
+          <p>Contacto: <a href="mailto:{{email}}">{{email}}</a></p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com" target="_blank">
+              <img src="{% static 'fic_benchmark/linkedin.svg' %}" alt="linkedin-logo" width="20px" style="align-items: center;">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+              <img src=" {% static 'fic_benchmark/facebook.svg' %}" alt="facebook-logo" width="20px" style="align-items: center;">
+            </a>
+            <a href="https://www.twitter.com" target="_blank">
+              <img src="{% static 'fic_benchmark/twitter.svg' %}" alt="twitter-logo" width="20px" style="align-items: center;">
+            </a>
+          </div>
         </div>
+        
         <div class="footer-nav">
           <ul>
-            <li><a href="#acerca">Acerca de</a></li>
-            <li><a href="#terminos">Términos y Condiciones</a></li>
-            <li><a href="#privacidad">Política de Privacidad</a></li>
-            <li><a href="#mapa">Mapa del Sitio</a></li>
+            <li><a href="{% url 'fic_benchmark:acerca-de' %}">Acerca de</a></li>
+            <li><a href="{% url 'fic_benchmark:terminos-y-condiciones' %}">Términos y Condiciones</a></li>
+            <li><a href="{% url 'fic_benchmark:politicas-de-privacidad' %}">Política de Privacidad</a></li>
+            <li><a href="{% url 'django.contrib.sitemaps.views.sitemap' %}">Mapa del Sitio</a></li>
           </ul>
         </div>
-        <div class="footer-social">
-          <a href="https://www.linkedin.com" target="_blank">
-            <img src="{% static 'fic_benchmark/linkedin.svg' %}" alt="linkedin-logo" width="20px" style="align-items: center;">
-          </a>
-          <a href="https://www.facebook.com" target="_blank">
-            <img src=" {% static 'fic_benchmark/facebook.svg' %}" alt="facebook-logo" width="20px" style="align-items: center;">
-          </a>
-          <a href="https://www.twitter.com" target="_blank">
-            <img src="{% static 'fic_benchmark/twitter.svg' %}" alt="twitter-logo" width="20px" style="align-items: center;">
-          </a>
-        </div>
+        
+      </div>
       </footer>
       <script src="{% static 'fic_benchmark/scroll_to_top.js' %}"></script>
 </body>

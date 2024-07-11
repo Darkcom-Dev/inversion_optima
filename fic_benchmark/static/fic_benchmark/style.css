@@ -34,7 +34,7 @@ body{
 }
 
 h1, h2, h3, h4, h5, h6{
-    color: light-dark(var(--heading-color), var(--dark-heading-color));
+    color: light-dark(var(--link-color), var(--dark-link-color));
 }
 
 a{
@@ -83,8 +83,6 @@ button:hover{
     color: var(--primary-button-text);
 }
 
-
-
 .logo{
     display: flex;
     flex-direction: row;
@@ -94,8 +92,6 @@ button:hover{
     background-color: var(--dark-link-hover-color);
     color: var(--primary-button-text);
 }
-
-
 
 input{
     border-radius: 5px;
@@ -108,7 +104,8 @@ input{
 option{
     border-radius: 5px;
     border-style: dashed;
-    padding: 5px;
+    padding: 15px;
+    height: 20px;
     background-color: light-dark(var(--secondary-background-color), var(--dark-secondary-background-color));
     color: var(--primary-button-text);
 }
@@ -119,7 +116,6 @@ option{
     padding: 20px;
     display: flex;
     flex-direction: column;
-    /*align-items:baseline;*/
     justify-content:space-between;
     margin-top: 50px;
 }
@@ -174,8 +170,6 @@ form{
     margin: 10px;
     padding: 20px;
     background-color: light-dark(var(--secondary-background-color),var(--dark-secondary-background-color));
-
-    /*border: 2px solid light-dark (var(--border-color), var(--dark-border-color));*/
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -200,12 +194,10 @@ header{
 }
 
 .header-menu{
-    
-    display: flex;
+    display: none; /* Hidden by default -- replace flex to use*/
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
-    background-color: red;
     border-radius: 5px;
     padding: 5px;
     color: var(--primary-button-text);
@@ -231,7 +223,7 @@ nav{
     border-bottom-left-radius: 20px;
     padding-right: 40px;
     padding-left: 20px;
-    background-color: red;
+    background-color: var(--link-hover-color);
     color: var(--primary-button-text);
 }
 .split{
@@ -241,10 +233,18 @@ nav{
 footer{
     padding: 20px;
     border-radius: 20px;
-    background-color: #003D80;
+    background-color: var(--link-hover-color)/*#003D80*/;
+    color: var(--dark-text-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.footer-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
 }
 
 section{
@@ -311,7 +311,6 @@ summary{
    border: none;
    cursor: pointer;
    transition: background-color 0.5s;
-
  }
 
  button.button-tabs:hover {
@@ -328,8 +327,8 @@ summary{
     z-index: 99; /* Make sure it does not overlap */
     border: none; /* Remove borders */
     outline: none; /* Remove outline */
-    background-color: red; /* Set a background color */
-    color: white; /* Text color */
+    background-color: var(--dark-background-color); /* Set a background color */
+    color: var(--primary-button-text); /* Text color */
     cursor: pointer; /* Add a mouse pointer on hover */
     padding: 15px; /* Some padding */
     border-radius: 10px; /* Rounded corners */
@@ -337,5 +336,5 @@ summary{
   }
   
   #myBtn:hover {
-    background-color: #555; /* Add a dark-grey background on hover */
+    background-color: var(--primary-button-hover); /* Add a dark-grey background on hover */
   }

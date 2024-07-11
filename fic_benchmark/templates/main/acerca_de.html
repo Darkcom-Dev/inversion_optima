@@ -1,0 +1,39 @@
+{% extends 'fic_benchmark/base.html' %}
+{% load static %}
+
+{% block title %}Acerca de - Inversión Óptima{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <h1>Acerca de Inversión Óptima</h1>
+        <p>Inversión Óptima es una plataforma dedicada a medir y analizar el rendimiento de varios fondos de inversión colectiva. Nuestro objetivo es proporcionar a los inversionistas la información y las herramientas necesarias para tomar decisiones informadas y maximizar sus retornos.</p>
+        
+        <h2>Nuestra Historia</h2>
+        <p>Inversión Óptima fue fundada en 2024 por un apasionado desarrollador de Python con experiencia en Django. La motivación detrás del proyecto fue crear una herramienta accesible y efectiva para evaluar el rendimiento de fondos de inversión, permitiendo a los usuarios optimizar sus carteras de inversión.</p>
+        
+        <h2>Misión y Visión</h2>
+        <p>Nuestra misión es ofrecer una plataforma intuitiva y poderosa para analizar y comparar fondos de inversión colectiva. Aspiramos a ser la referencia en análisis de inversiones, ayudando a los inversionistas a lograr una gestión óptima de sus recursos financieros.</p>
+        
+        <h2>Valores</h2>
+        <p>Nos guiamos por los valores de integridad, transparencia, y compromiso con la excelencia. Creemos en la importancia de proporcionar información precisa y útil para nuestros usuarios.</p>
+        
+        <h2>Equipo</h2>
+        <div class="team">
+            <div class="team-member">
+                <img src="ruta_a_la_imagen_del_fundador.jpg" alt="Fundador">
+                <div>
+                    <h3>{{founder}}</h3>
+                    <p>Desarrollador de Python con experiencia en Django, fundador de Inversión Óptima.</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Logros</h2>
+        <p>Desde su lanzamiento, Inversión Óptima ha ayudado a numerosos inversionistas a mejorar sus decisiones de inversión, recibiendo comentarios positivos y reconocimiento en la comunidad de finanzas.</p>
+        
+        <h2>Contacto</h2>
+        <p>Para más información o consultas, puedes contactarnos a través de nuestro correo electrónico: <a href="mailto:{{email}}">{{email}}</a></p>
+        
+
+    </div>
+{% endblock %}
