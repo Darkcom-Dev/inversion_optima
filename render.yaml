@@ -3,20 +3,21 @@ databases:
     plan: free
     databaseName: fic_db
     user: darkcom
-
+# Exported from Render on 2024-07-13T22:19:16Z
 services:
-  - type: web
-    plan: free
-    name: inversion_optima
-    runtime: python
-    buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn inversion_optima.asgi:application -k uvicorn.workers.UvicornWorker"
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: fic_db
-          property: connectionString
-      - key: SECRET_KEY
-        generateValue: true
-      - key: WEB_CONCURRENCY
-        value: 4
+- type: web
+  name: inversion_optima
+  runtime: python
+  repo: https://github.com/Darkcom-Dev/inversion_optima
+  plan: free
+  envVars:
+  - key: WEB_CONCURRENCY
+    sync: false
+  - key: SECRET_KEY
+    sync: false
+  - key: PYTHON_VERSION
+    sync: false
+  region: oregon
+  buildCommand: ./build.sh
+  startCommand: python -m gunicorn inversion_optima.asgi:application -k uvicorn.workers.UvicornWorker
+version: "1"
