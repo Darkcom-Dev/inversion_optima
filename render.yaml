@@ -20,4 +20,5 @@ services:
   region: oregon
   buildCommand: ./build.sh
   startCommand: python -m gunicorn inversion_optima.asgi:application -k uvicorn.workers.UvicornWorker
+  staticPublishPath: static
 version: "1"
