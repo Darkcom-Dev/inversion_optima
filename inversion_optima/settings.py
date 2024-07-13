@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tv9x%bv#kl0#b5ibgp3jmw9(colowewms)d7r6rupn@eosin^#'
+SECRET_KEY = os.environ.get('SECRET_KEY') #'django-insecure-tv9x%bv#kl0#b5ibgp3jmw9(colowewms)d7r6rupn@eosin^#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 
 
 # Application definition
@@ -91,13 +91,13 @@ DATABASES = {
  """
 DATABASES = {
     'default': dj_database_url.config(
-        # default='postgresql://postgres:postgres@localhost:5432/mysite',
         default='postgresql://darkcom:admin123@localhost:5432/fic_db',
         conn_max_age=600
     )
 }
-
-DATABASES['default'] = dj_database_url.parse('postgresql://darkcom:j6S8o2paBhN7FBhYZ5xIq6fUAdTe8U6B@dpg-cq9ejglds78s739daq00-a.oregon-postgres.render.com/fic_db')
+# DATABASES['default'] = descomentar la linea siguiente para usar la base de datos en Render.com
+database_url = os.environ.get('DATABASE_URL')
+DATABASES['default'] = dj_database_url.parse(database_url)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

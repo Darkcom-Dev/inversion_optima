@@ -1,7 +1,7 @@
 databases:
-  - name: fic_db
+  - name: inversion_optima_database
     plan: free
-    databaseName: inversion_optima
+    databaseName: fic_db
     user: darkcom
 
 services:
