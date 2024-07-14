@@ -1,0 +1,340 @@
+:root {
+    color-scheme: light dark;
+  --background-color: #b6afff;
+  --text-color: #333333;
+  --heading-color: #1A1A1A;
+  --link-color: #0056B3;
+  --link-hover-color: #003D80;
+  --border-color: #E0E0E0;
+  --secondary-background-color: #F5F5F5;
+  --primary-button-background: #007BFF;
+  --primary-button-text: #FFFFFF;
+  --primary-button-hover: #0056B3;
+  --secondary-button-background: #6C757D;
+  --secondary-button-text: #FFFFFF;
+  --secondary-button-hover: #5A6268;
+  --success-color: #28A745;
+  --warning-color: #FFC107;
+  --error-color: #DC3545;
+
+  --dark-background-color: #121230;
+  --dark-text-color: #E0E0E0;
+  --dark-heading-color: #FFFFFF;
+  --dark-link-color: #82AAFF;
+  --dark-link-hover-color: #539BFF;
+  --dark-border-color: #333333;
+  --dark-secondary-background-color: #1E1E1E;
+  --dark-primary-button-background: #1F73FF;
+}
+  
+body{
+    background-color: light-dark(var(--background-color), var(--dark-background-color));
+    color: light-dark(var(--text-color), var(--dark-text-color));
+    font-family: 'Raleway', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    color: light-dark(var(--link-color), var(--dark-link-color));
+}
+
+a{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--secondary-button-background);
+    color: var(--primary-button-text);
+    text-decoration: none;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+a:hover{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--secondary-button-hover);
+    color: var(--primary-button-text);
+    
+}
+
+button{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--primary-button-background);
+    color: var(--primary-button-text);
+    border: none;
+    transition: background-color 0.5s;
+}
+
+button:hover{
+    background-color: var(--primary-button-hover);
+    color: var(--primary-button-text);
+}
+
+.search{
+    border-radius: 5px;
+    padding: 5px;
+    color: var(--primary-button-text);
+}
+
+.user-options{
+    border-radius: 5px;
+    padding: 5px;
+    color: var(--primary-button-text);
+}
+
+.logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: var(--dark-link-hover-color);
+    color: var(--primary-button-text);
+}
+
+input{
+    border-radius: 5px;
+    border-style: dashed;
+    padding: 5px;
+    background-color: light-dark(var(--secondary-background-color), var(--dark-secondary-background-color));
+    color: var(--primary-button-text);
+}
+
+option{
+    border-radius: 5px;
+    border-style: dashed;
+    padding: 15px;
+    height: 20px;
+    background-color: light-dark(var(--secondary-background-color), var(--dark-secondary-background-color));
+    color: var(--primary-button-text);
+}
+
+#container{
+    background-color: light-dark(var(--secondary-background-color), var(--dark-secondary-background-color));
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    margin-top: 50px;
+}
+
+.social-link{
+    padding: 5px;
+    margin: 5px;
+    color: var(--primary-button-text);
+    text-decoration: none;
+}
+
+.social-link:hover{
+    padding: 5px;
+    margin: 5px;
+    color: var(--primary-button-text);
+    text-decoration: none;
+}
+
+.icon{
+    width: 30px;
+    height: 30px;
+    fill: #333; /* Color inicial */
+    transition: fill 0.3s;
+}
+.icon:hover {
+    fill: #0077B5; /* Color al pasar el cursor por encima */
+}
+
+.text-right{
+    text-align: right;
+    font-family: 'Inconsolata',monospace;
+}
+
+.negative-text-right{
+    text-align: right;
+    color: var(--error-color);
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /*padding: 10px;*/
+}
+
+tr:nth-child(even) {
+    background-color: light-dark(var(--secondary-background-color), var(--dark-secondary-background-color));
+}
+
+form{
+    margin: 10px;
+    padding: 20px;
+    background-color: light-dark(var(--secondary-background-color),var(--dark-secondary-background-color));
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+header{
+    padding: 20px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-color: #003D80;
+    background-image: url('investors4.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: var(--primary-button-text);
+    display:block;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    align-items:baseline;
+}
+
+.header-menu{
+    display: none; /* Hidden by default -- replace flex to use*/
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    border-radius: 5px;
+    padding: 5px;
+    color: var(--primary-button-text);
+}
+
+.header-top{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+
+    align-items:baseline;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-right: 40px;
+    padding-left: 20px;
+    background-color: var(--link-hover-color);
+    color: var(--primary-button-text);
+}
+.split{
+    float: right;
+}
+
+footer{
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--link-hover-color)/*#003D80*/;
+    color: var(--dark-text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.footer-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+}
+
+section{
+    padding: 20px;
+    margin: 10px;
+    background-color: light-dark(var(--secondary-background-color), var(--dark-secondary-background-color));
+    border-radius: 10px;
+    display: flex;
+    flex-direction:column;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+details{
+    background-color: light-dark(var(--dark-link-hover-color),var(--link-hover-color));
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    gap: 10px;
+    text-align: left;
+    height: auto;
+    transition: height 0.5s ease, rotate 0.5s ease;
+}
+
+details[open]{
+    height: 100%;
+}
+
+summary{
+    background-color: light-dark(var(--primary-button-background), var(--dark-primary-button-background));
+    color: light-dark(var(--text-color), var(--dark-text-color));
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: height 0.5s ease, rotate 0.5s ease;
+}
+
+/* Experimental */
+
+/* Estilos para las pestañas */
+.tab {
+   display: none;
+ }
+ 
+ /* Estilos para el contenido de las pestañas */
+ .tab-content {
+   display: none;
+ }
+
+ div.tabs {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+ }
+
+ button.button-tabs {
+   background-color: rgba(0, 0, 0, 0.1);
+   border-top-left-radius: 5px;
+   border-top-right-radius: 5px;
+   font-weight: bolder;
+   color: light-dark(var(--text-color), var(--dark-text-color));
+   border: none;
+   cursor: pointer;
+   transition: background-color 0.5s;
+ }
+
+ button.button-tabs:hover {
+   background-color: light-dark(var(--primary-button-background), var(--dark-primary-button-background));
+   color: light-dark(var(--primary-button-text), var(--dark-primary-button-text));
+
+ }
+   
+ #myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: var(--dark-background-color); /* Set a background color */
+    color: var(--primary-button-text); /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+  }
+  
+  #myBtn:hover {
+    background-color: var(--primary-button-hover); /* Add a dark-grey background on hover */
+  }
