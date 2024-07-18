@@ -1,4 +1,7 @@
 venv/
+inversion_optima/__pycache__/
+fic_benchmark/__pycache__/
+fic_benchmark/fixtures/
 .env
 *.pyc
 models.cpython-39.pyc

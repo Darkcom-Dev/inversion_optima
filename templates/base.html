@@ -4,21 +4,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'fic_benchmark/style.css' %}">
-    <link rel="icon" type="image/svg" href="{% static 'fic_benchmark/logo.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" type="image/svg" href="{% static 'images/logo.svg' %}">
     <title>{% block title %}Inversion Optima{% endblock %}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
-    <script src="{% static 'fic_benchmark/tabs.js' %}"></script>
+    <script src="{% static 'js/tabs.js' %}"></script>
     
 </head>
 <body>
   <header>
     <div class="header-top">
       <div class="logo" style="border-radius: 20px; border-color: antiquewhite;">
-        <img src="{% static 'fic_benchmark/logo.svg' %}" alt="logo" width="128px">
+        <img src="{% static 'images/logo.svg' %}" alt="logo" width="128px">
         <h1 style="color: white;">Inversión <br>Óptima</h1>
       </div>
 
@@ -26,7 +25,7 @@
         <div class="search">
           <input type="text" placeholder="Buscar...">
           <button>
-            <img src="{% static 'fic_benchmark/lupa.svg' %}" alt="lupa" width="16px">
+            <img src="{% static 'images/lupa.svg' %}" alt="lupa" width="16px">
           </button>
         </div>
         <div class="user-options">
@@ -64,13 +63,13 @@
           <p>Contacto: <a href="mailto:{{email}}">{{email}}</a></p>
           <div class="footer-social">
             <a href="https://www.linkedin.com" target="_blank">
-              <img src="{% static 'fic_benchmark/linkedin.svg' %}" alt="linkedin-logo" width="20px" style="align-items: center;">
+              <img src="{% static 'images/linkedin.svg' %}" alt="linkedin-logo" width="20px" style="align-items: center;">
             </a>
             <a href="https://www.facebook.com" target="_blank">
-              <img src=" {% static 'fic_benchmark/facebook.svg' %}" alt="facebook-logo" width="20px" style="align-items: center;">
+              <img src=" {% static 'images/facebook.svg' %}" alt="facebook-logo" width="20px" style="align-items: center;">
             </a>
             <a href="https://www.twitter.com" target="_blank">
-              <img src="{% static 'fic_benchmark/twitter.svg' %}" alt="twitter-logo" width="20px" style="align-items: center;">
+              <img src="{% static 'images/twitter.svg' %}" alt="twitter-logo" width="20px" style="align-items: center;">
             </a>
           </div>
         </div>
@@ -86,6 +85,6 @@
         
       </div>
       </footer>
-      <script src="{% static 'fic_benchmark/scroll_to_top.js' %}"></script>
+      <script src="{% static 'js/scroll_to_top.js' %}"></script>
 </body>
 </html>
