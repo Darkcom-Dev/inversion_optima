@@ -1,4 +1,5 @@
 venv/
+.env
 *.pyc
 *.cpython-39.pyc
 models.cpython-39.pyc
