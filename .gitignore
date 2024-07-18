@@ -1,7 +1,7 @@
 venv/
 .env
 *.pyc
-*.cpython-39.pyc
 models.cpython-39.pyc
+settings.cpython-39.pyc
 *.cpython-39.pyc
 *.ipynb
