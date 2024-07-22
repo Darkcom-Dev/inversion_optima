@@ -7,7 +7,4 @@ urlpatterns = [
     path('statistics/', views.comparative_statistics, name='statistics'),#'<int:funds_id>/
     path('fund_statistics/', views.fund_statistics, name='fund_statistics'),#'<int:funds_id>/
     path('indicators/', views.indicators, name='indicators'),#'<int:funds_id>/
-    path('terminos-y-condiciones/', views.terminos_y_condiciones, name='terminos-y-condiciones'),
-    path('acerca-de/', views.acerca_de, name='acerca-de'),
-    path('politicas-de-privacidad/', views.politicas_de_privacidad, name='politicas-de-privacidad'),
 ]

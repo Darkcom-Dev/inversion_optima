@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.sitemaps',
     'fic_benchmark',
+    'main',
 ]
 
 MIDDLEWARE = [

@@ -8,10 +8,9 @@ class StaticViewSitemap(Sitemap):
 
     def items(self):
         return [
-            'fic_benchmark:index',
-            'fic_benchmark:statistics',
-            'fic_benchmark:fund_statistics',
-            'fic_benchmark:indicators',
+            'main:terminos-y-condiciones',
+            'main:acerca-de',
+            'main:politicas-de-privacidad'
         ]
 
     def location(self, item):

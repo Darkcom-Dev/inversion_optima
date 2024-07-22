@@ -40,7 +40,7 @@
       <a href="{% url 'fic_benchmark:statistics' %}">Comparativa</a>
       <a href="{% url 'fic_benchmark:indicators' %}">Indicadores</a>
       <a href="{% url 'fic_benchmark:fund_statistics' %}">Estadisticas</a>
-      <a href="{% url 'fic_benchmark:acerca-de' %}">Acerca de</a>
+      <a href="{% url 'main:acerca-de' %}">Acerca de</a>
       <!--  p> -- espacio -- </p -->
       <button id="dark-mode-toggle" class="split">Dark Mode</button>
     </nav>
@@ -76,9 +76,9 @@
         
         <div class="footer-nav">
           <ul>
-            <li><a href="{% url 'fic_benchmark:acerca-de' %}">Acerca de</a></li>
-            <li><a href="{% url 'fic_benchmark:terminos-y-condiciones' %}">Términos y Condiciones</a></li>
-            <li><a href="{% url 'fic_benchmark:politicas-de-privacidad' %}">Política de Privacidad</a></li>
+            <li><a href="{% url 'main:acerca-de' %}">Acerca de</a></li>
+            <li><a href="{% url 'main:terminos-y-condiciones' %}">Términos y Condiciones</a></li>
+            <li><a href="{% url 'main:politicas-de-privacidad' %}">Política de Privacidad</a></li>
             <li><a href="{% url 'django.contrib.sitemaps.views.sitemap' %}">Mapa del Sitio</a></li>
           </ul>
         </div>
